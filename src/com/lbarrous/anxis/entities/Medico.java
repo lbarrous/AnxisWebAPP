@@ -9,7 +9,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
+import com.google.api.server.spi.auth.common.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Medico {
@@ -44,8 +44,16 @@ public class Medico {
         List<String> TestMedico;
         @Persistent
         List<String> Mensajes;
+        @Persistent
+        String id_google;
         
         
+		public String getId_google() {
+			return id_google;
+		}
+		public void setId_google(String id_google) {
+			this.id_google = id_google;
+		}
 		public String getNick() {
 			return Nick;
 		}

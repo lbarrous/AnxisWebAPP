@@ -49,8 +49,16 @@ public class Paciente {
         List<String> Mensajes;
         @Persistent
         String MedicoAsociado;
+        @Persistent
+        String id_google;
         
         
+		public String getId_google() {
+			return id_google;
+		}
+		public void setId_google(String id_google) {
+			this.id_google = id_google;
+		}
 		public String getNick() {
 			return Nick;
 		}

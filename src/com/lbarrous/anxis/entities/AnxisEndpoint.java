@@ -1,12 +1,13 @@
 package com.lbarrous.anxis.entities;
 
 import com.lbarrous.anxis.entities.PMF;
-
+import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -760,8 +761,16 @@ public class AnxisEndpoint {
 	
 	/****************************************************************************************************************/
 	
-	@ApiMethod(name = "registrarMedico")
-	public Medico registrarMedico(Medico medico) {
+	@ApiMethod(name = "registrarMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Medico registrarMedico(Medico medico, User user) throws UnauthorizedException {
+		
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
+		
+		 registroValido(user.getEmail());
 		
 		if(!mailMedicoRepe(medico)) {
 			PersistenceManager mgr = null;
@@ -772,6 +781,7 @@ public class AnxisEndpoint {
 			
 			try {
 				mgr = getPersistenceManager();
+				mgr.makePersistent(user);
 				mgr.makePersistent(medico);
 				
 			} finally {
@@ -784,6 +794,25 @@ public class AnxisEndpoint {
 		else {
 			return null;
 		}
+	}
+	
+	@ApiMethod(name = "altaEmailMedico")
+	public Registros altaEmailMedico(@Named("email") String email) {
+		
+		PersistenceManager mgr = null;
+		Registros nuevo_registro = new Registros();
+		
+		nuevo_registro.setEmail_validado(email);
+
+			try {
+				mgr = getPersistenceManager();
+				mgr.makePersistent(nuevo_registro);
+				
+			} finally {
+				mgr.close();
+			}
+			
+			return nuevo_registro;
 	}
 	
 	@ApiMethod(name = "loginMedico", path = "loginMedico")
@@ -1180,6 +1209,23 @@ public class AnxisEndpoint {
 			mgr.close();
 		}
 		return medico;
+	}
+	
+	private boolean registroValido(String email) throws UnauthorizedException {
+		PersistenceManager mgr = getPersistenceManager();
+		boolean valido = false;
+		Query query = mgr.newQuery("select from " + Registros.class.getName()
+		        + " where email_validado == '" +email+"'" );
+		List<Registros> results = (List<Registros>) query.execute();
+		
+		if (!results.isEmpty()) {
+			valido = true;
+		}
+		else {
+			throw new UnauthorizedException("Invalid register");
+		}
+		
+		return valido;
 	}
 
 	private boolean containsMedico(String id_medico) {
