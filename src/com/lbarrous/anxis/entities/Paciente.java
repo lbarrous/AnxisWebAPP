@@ -3,6 +3,7 @@ package com.lbarrous.anxis.entities;
 import java.util.List;
 import java.util.Set;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -51,8 +52,17 @@ public class Paciente {
         String MedicoAsociado;
         @Persistent
         String id_google;
+        @Persistent
+        @Column(defaultValue="0")
+        int validado;
         
         
+		public int getValidado() {
+			return validado;
+		}
+		public void setValidado(int validado) {
+			this.validado = validado;
+		}
 		public String getId_google() {
 			return id_google;
 		}

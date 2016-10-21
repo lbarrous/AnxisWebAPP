@@ -58,7 +58,7 @@ public class AnxisEndpoint {
 	
 	@SuppressWarnings({ "unchecked", "unused" })
 	
-	@ApiMethod(name = "listMedicos")
+	/*@ApiMethod(name = "listMedicos")
 	public CollectionResponse<Medico> getMedicos(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
@@ -301,7 +301,7 @@ public class AnxisEndpoint {
 
 		return CollectionResponse.<Mensaje> builder().setItems(execute)
 				.setNextPageToken(cursorString).build();
-	}
+	}*/
 	
 	
 	
@@ -314,62 +314,109 @@ public class AnxisEndpoint {
 	
 	/****************************************************************************************************************/
 	
-	@ApiMethod(name = "registrarPaciente")
-	public Paciente registrarPaciente(Paciente paciente) {
+	@ApiMethod(name = "registrarPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente registrarPaciente(Paciente paciente, User user) throws UnauthorizedException {
 		
-		if(!mailPacienteRepe(paciente)) {
-			PersistenceManager mgr = null;
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
+		
+		if(pacienteEnBD(user.getId())) throw new UnauthorizedException("Account already registered");
+		
+		PersistenceManager mgr = null;
+		
+		paciente.setEncuestas(new ArrayList<String>());
+		paciente.setTestAsociados(new ArrayList<String>());
+		paciente.setMensajes(new ArrayList<String>());
+		paciente.setId_google(user.getId());
+		
+		try {
+			mgr = getPersistenceManager();
+			mgr.makePersistent(paciente);
 			
-			paciente.setEncuestas(new ArrayList<String>());
-			paciente.setTestAsociados(new ArrayList<String>());
-			paciente.setMensajes(new ArrayList<String>());
-			
+		} finally {
+			mgr.close();
+		}
+		
+		return paciente;
+		
+		
+	}
+	
+	@ApiMethod(name = "validacionPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente validarPaciente(@Named("id_paciente") String id_paciente, @Named("valido") int valido, User user) throws UnauthorizedException {
+		
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
+		
+		if(user.getEmail().equalsIgnoreCase("alvaro093@gmail.com")) throw new UnauthorizedException("Admin tool");
+		
+		PersistenceManager mgr = null;
+		Paciente nuevo_registro = getPacienteByID(id_paciente);
+		
+		nuevo_registro.setValidado(valido);
+
 			try {
 				mgr = getPersistenceManager();
-				mgr.makePersistent(paciente);
+				mgr.makePersistent(nuevo_registro);
 				
 			} finally {
 				mgr.close();
 			}
 			
-			return paciente;
-		}
-		
-		else {
-			return null;
-		}
-		
+			return nuevo_registro;
 	}
 	
-	@ApiMethod(name = "loginPaciente", path = "loginPaciente")
-	public Paciente loginPaciente(@Named("email") String email, @Named("password") String password) {
+	@ApiMethod(name = "loginPaciente", path = "loginPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente loginPaciente(User user) throws UnauthorizedException {
+
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
 
 		Paciente paciente_login = null;
+		paciente_login = getPacienteByIDGoogle(user.getId());
 		
-		if(pacienteEnBD(email, password) != null)
-			paciente_login = pacienteEnBD(email, password);
+		if(paciente_login.getValidado() == 0)
+			throw new UnauthorizedException("Invalid account.");
 		
 		return paciente_login;
 	}
 	
-	@ApiMethod(name = "getMedicoAsociadoPaciente", path = "getMedicoAsociadoPaciente")
-	public Medico getMedicoAsociadoByIDPaciente(@Named("id_paciente") String id_paciente,
-			@Nullable @Named("cursor") String cursorString,
-			@Nullable @Named("limit") Integer limit) {
+	@ApiMethod(name = "getMedicoAsociadoPaciente", path = "getMedicoAsociadoPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Medico getMedicoAsociadoByIDPaciente( User user) throws UnauthorizedException {
 
-		Paciente paciente = null;
+		Paciente paciente = loginPaciente(user);
 		
-		paciente = getPacienteByID(id_paciente);
-
-		return getMedicoByID(paciente.getMedicoAsociado());
+		//paciente = getPacienteByID(id_paciente);
+		
+		if(paciente.getMedicoAsociado() == null)
+			return null;
+		else
+			return getMedicoByID(paciente.getMedicoAsociado());
 	}
-	
-	@ApiMethod(name = "getMensajesTotalesPaciente", path = "getMensajesTotalesPaciente")
-	public CollectionResponse<Mensaje> getMensajesTotalesByIDPaciente(@Named("id_paciente") String id_paciente) {
 
-		Paciente paciente = null;
+	
+	@ApiMethod(name = "getMensajesTotalesPaciente", path = "getMensajesTotalesPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Mensaje> getMensajesTotalesByIDPaciente(User user) throws UnauthorizedException {
+
+		Paciente paciente = loginPaciente(user);
 		List<Mensaje> mensajes = new ArrayList<Mensaje>();
-		paciente = getPacienteByID(id_paciente);
 		
 		PersistenceManager mgr = null;
 
@@ -388,12 +435,14 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Mensaje> builder().setItems(mensajes).build();
 	}
 	
-	@ApiMethod(name = "getMensajesPorLeerPaciente", path = "getMensajesPorLeerPaciente")
-	public CollectionResponse<Mensaje> getMensajesPorLeerByIDPaciente(@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "getMensajesPorLeerPaciente", path = "getMensajesPorLeerPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Mensaje> getMensajesPorLeerByIDPaciente(User user) throws UnauthorizedException {
 
-		Paciente paciente = null;
-		
-		paciente = getPacienteByID(id_paciente);
+		Paciente paciente = loginPaciente(user);
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();  
 	    Query query = pm.newQuery("select from "+Mensaje.class.getName()+" WHERE idPacienteReceptorMensaje == keyParam && visto == s");
@@ -405,14 +454,17 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Mensaje> builder().setItems(results).build();
 	}
 	
-	@ApiMethod(name = "sendMensajeMedicoPaciente")
-	public Mensaje sendMensajeMedicoByIDPaciente(@Named("id_paciente") String id_paciente,
-			Mensaje mensaje) {
+	@ApiMethod(name = "sendMensajeMedicoPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Mensaje sendMensajeMedicoByIDPaciente(Mensaje mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medicoenvio = null;
 
-		medicoenvio = getMedicoByID(getPacienteByID(id_paciente).getMedicoAsociado());
+		medicoenvio = getMedicoByID(loginPaciente(user).getMedicoAsociado());
 		mensaje.setIdMedicoReceptorMensaje(medicoenvio.getId_medico());
 		
 		try {
@@ -429,14 +481,17 @@ public class AnxisEndpoint {
 		return mensaje;
 	}
 	
-	@ApiMethod(name = "setMensajeLeidoPaciente")
-	public Mensaje setMensajeLeidoByIDPaciente(@Named("id_paciente") String id_paciente,
-			@Named("id_mensaje") String id_mensaje) {
+	@ApiMethod(name = "setMensajeLeidoPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Mensaje setMensajeLeidoByIDPaciente(@Named("id_mensaje") String id_mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Mensaje mensaje_leido = null;
 
-		mensaje_leido = getMensajeByIDMensajePaciente(id_paciente, id_mensaje);
+		mensaje_leido = getMensajeByIDMensajePaciente(loginPaciente(user).getId_paciente(), id_mensaje);
 		
 		mensaje_leido.setVisto(1);
 		
@@ -451,53 +506,66 @@ public class AnxisEndpoint {
 		return mensaje_leido;
 	}
 	
-	@ApiMethod(name = "borrarMensajePaciente")
-	public void borrarMensajePaciente(@Named("id_paciente") String id_paciente,
-			@Named("id_mensaje") String id_mensaje) {
+	@ApiMethod(name = "borrarMensajePaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public void borrarMensajePaciente(@Named("id_mensaje") String id_mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente paciente = null;
 		Mensaje mensaje = null;
 		
-		paciente = getPacienteByID(id_paciente);
+		paciente = getPacienteByID(loginPaciente(user).getId_paciente());
 
-		mensaje = getMensajeByIDMensajePaciente(id_paciente, id_mensaje);
+		mensaje = getMensajeByIDMensajePaciente(loginPaciente(user).getId_paciente(), id_mensaje);
 		
 		paciente.getMensajes().remove(mensaje.getId_mensaje());
 		
 		try {
 			mgr = getPersistenceManager();
 			mgr.makePersistent(paciente);
-			//mgr.deletePersistent(mensaje);
 			
 		} finally {
 			mgr.close();
 		}
 	}
 	
-	@ApiMethod(name = "getListaTestsPaciente", path = "getListaTestsPaciente")
-	public CollectionResponse<Test> getListaTestsByIDPaciente(@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "getListaTestsPaciente", path = "getListaTestsPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Test> getListaTestsByIDPaciente(User user) throws UnauthorizedException {
 
 		List<Test> testasociados = new ArrayList<Test>();
 
-		testasociados = getTestsAsociadosByIDPaciente(id_paciente);
+		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
 
 		return CollectionResponse.<Test> builder().setItems(testasociados).build();
 	}
 	
-	@ApiMethod(name = "getListaEncuestasPaciente", path = "getListaEncuestasPaciente")
-	public CollectionResponse<Encuesta> getListaEncuestasByIDPaciente(@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "getListaEncuestasPaciente", path = "getListaEncuestasPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Encuesta> getListaEncuestasByIDPaciente(User user) throws UnauthorizedException {
 
 		List<Encuesta> encuestas = new ArrayList<Encuesta>();
 
-		encuestas = getEncuestasAsociadasByIDPaciente(id_paciente);
+		encuestas = getEncuestasAsociadasByIDPaciente(loginPaciente(user).getId_paciente());
 
 		return CollectionResponse.<Encuesta> builder().setItems(encuestas).build();
 	}
 	
-	@ApiMethod(name = "setTestFinalizadoPaciente")
-	public Test finalizarTestPaciente(@Named("id_paciente") String id_paciente,
-			@Named("id_test") String id_test) {
+	@ApiMethod(name = "setTestFinalizadoPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Test finalizarTestPaciente(@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		List<Test> testasociados = new ArrayList<Test>();
@@ -505,7 +573,7 @@ public class AnxisEndpoint {
 
 		try {
 			mgr = getPersistenceManager();
-			testasociados = getTestsAsociadosByIDPaciente(id_paciente);
+			testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
 			for (Test obj : testasociados) {
 				if(obj.getId_test().equals(id_test)) {
 					obj.setFinalizado(1);
@@ -521,13 +589,16 @@ public class AnxisEndpoint {
 		return test_cambio;
 	}
 	
-	@ApiMethod(name = "realizarEncuestaPaciente", path = "realizarEncuestaPaciente")
-	public Encuesta realizarEncuestaPaciente(@Named("id_paciente") String id_paciente,
-			Encuesta encuesta) {
+	@ApiMethod(name = "realizarEncuestaPaciente", path = "realizarEncuestaPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Encuesta realizarEncuestaPaciente(Encuesta encuesta, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente paciente = null;
-		paciente = getPacienteByID(id_paciente);
+		paciente = getPacienteByID(loginPaciente(user).getId_paciente());
 		encuesta.setPacienteEncuesta(paciente.getId_paciente());
 		
 
@@ -545,13 +616,17 @@ public class AnxisEndpoint {
 	}
 
 	
-	@ApiMethod(name = "getListaTestFinalizadosPaciente", path = "getListaTestFinalizadosPaciente", httpMethod = HttpMethod.GET)
-	public CollectionResponse<Test> getListaTestsFinalizadosByIDPaciente(@Named("id_paciente_test") String id_paciente_test) {
+	@ApiMethod(name = "getListaTestFinalizadosPaciente", path = "getListaTestFinalizadosPaciente", httpMethod = HttpMethod.GET, scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Test> getListaTestsFinalizadosByIDPaciente(User user) throws UnauthorizedException {
 
 		List<Test> testasociados = new ArrayList<Test>();
 		List<Test> testfinalizados = new ArrayList<Test>();
 
-		testasociados = getTestsAsociadosByIDPaciente(id_paciente_test);
+		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
 		
 		for (Test obj : testasociados) {
 			if(obj.getFinalizado() == 1) {
@@ -562,13 +637,17 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Test> builder().setItems(testfinalizados).build();
 	}
 	
-	@ApiMethod(name = "getListaTestPorIniciarPaciente", path = "getListaTestPorIniciarPaciente", httpMethod = HttpMethod.GET)
-	public CollectionResponse<Test> getListaTestsPorIniciarByIDPaciente(@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "getListaTestPorIniciarPaciente", path = "getListaTestPorIniciarPaciente", httpMethod = HttpMethod.GET, scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Test> getListaTestsPorIniciarByIDPaciente(User user) throws UnauthorizedException {
 
 		List<Test> testasociados = new ArrayList<Test>();
 		List<Test> testporfinalizar = new ArrayList<Test>();
 
-		testasociados = getTestsAsociadosByIDPaciente(id_paciente);
+		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
 		
 		for (Test obj : testasociados) {
 			if(obj.getFinalizado() == 0) {
@@ -579,15 +658,19 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Test> builder().setItems(testporfinalizar).build();
 	}
 	
-	@ApiMethod(name = "updatePaciente")
-	public Paciente updatePaciente(@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "updatePaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente updatePaciente(User user) throws UnauthorizedException {
 		PersistenceManager mgr = getPersistenceManager();
 		Paciente paciente = null;
 		try {
-			if (!containsPaciente(id_paciente)) {
+			if (!containsPaciente(loginPaciente(user).getId_paciente())) {
 				throw new EntityNotFoundException("Este medico no existe en nuestra base de datos");
 			}
-			Key k = KeyFactory.stringToKey(id_paciente);
+			Key k = KeyFactory.stringToKey(loginPaciente(user).getId_paciente());
 			//Key k = KeyFactory.createKey(Paciente.class.getSimpleName(), id_paciente);
 			paciente = mgr.getObjectById(Paciente.class, k);
 			mgr.makePersistent(paciente);
@@ -642,23 +725,37 @@ public class AnxisEndpoint {
 		return paciente;
 	}
 	
-	private Paciente pacienteEnBD(String email, String pass) {
+	private Paciente getPacienteByIDGoogle(String id_google) {
+		Paciente paciente = null;
 		PersistenceManager mgr = null;
-		Paciente paciente_login = null;
-		
 		try {
 			mgr = getPersistenceManager();
 			Query query = mgr.newQuery("select from " + Paciente.class.getName()
-			        + " where Email== '" +email+
-			        "' &&  Password=='"+pass+"'" );
+			        + " where id_google == '" +id_google+"'" );
 			List<Paciente> results = (List<Paciente>) query.execute();
-			if (!results.isEmpty()) {
-				paciente_login = results.get(0);
+			paciente = results.get(0);
+		} finally {
+			mgr.close();
+		}
+		return paciente;
+	}
+	
+	private boolean pacienteEnBD(String id_google) {
+		boolean ya_registrado = true;
+		PersistenceManager mgr = null;
+		try {
+			mgr = getPersistenceManager();
+			Query query = mgr.newQuery("select from " + Paciente.class.getName()
+			        + " where id_google == '" +id_google+"'" );
+			List<Paciente> results = (List<Paciente>) query.execute();
+
+			if(results.isEmpty()) {
+				ya_registrado = false;
 			}
 		} finally {
 			mgr.close();
 		}
-		return paciente_login;
+		return ya_registrado;
 	}
 	
 	private List<Test> getTestsAsociadosByIDPaciente(String id_paciente) {
@@ -770,39 +867,38 @@ public class AnxisEndpoint {
 		
 		if (user == null) throw new UnauthorizedException("User is Not Valid");
 		
-		 registroValido(user.getEmail());
-		
-		if(!mailMedicoRepe(medico)) {
-			PersistenceManager mgr = null;
-			
-			medico.setMensajes(new ArrayList<String>());
-			medico.setPacientes(new ArrayList<String>());
-			medico.setTestMedico(new ArrayList<String>());
-			
-			try {
-				mgr = getPersistenceManager();
-				mgr.makePersistent(user);
-				mgr.makePersistent(medico);
-				
-			} finally {
-				mgr.close();
-			}
-			
-			return medico;
-		}
-
-		else {
-			return null;
-		}
-	}
-	
-	@ApiMethod(name = "altaEmailMedico")
-	public Registros altaEmailMedico(@Named("email") String email) {
+		if(medicoEnBD(user.getId())) throw new UnauthorizedException("Account already registered");
 		
 		PersistenceManager mgr = null;
-		Registros nuevo_registro = new Registros();
 		
-		nuevo_registro.setEmail_validado(email);
+		medico.setMensajes(new ArrayList<String>());
+		medico.setPacientes(new ArrayList<String>());
+		medico.setTestMedico(new ArrayList<String>());
+		
+		medico.setId_google(user.getId());
+		
+		try {
+			mgr = getPersistenceManager();
+			mgr.makePersistent(medico);
+			
+		} finally {
+			mgr.close();
+		}
+		
+		return medico;
+	}
+	
+	@ApiMethod(name = "validacionMedico")
+	public Medico validarMedico(@Named("id_medico") String id_medico, @Named("valido") int valido, User user) throws UnauthorizedException {
+		
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
+		
+		if(user.getEmail().equalsIgnoreCase("alvaro093@gmail.com")) throw new UnauthorizedException("Admin tool");
+		
+		PersistenceManager mgr = null;
+		Medico nuevo_registro = getMedicoByID(id_medico);
+		
+		nuevo_registro.setValidado(valido);
 
 			try {
 				mgr = getPersistenceManager();
@@ -812,27 +908,73 @@ public class AnxisEndpoint {
 				mgr.close();
 			}
 			
+			Upload upload;
+			File file = new UploadController().uploadFile("<", upload);
+			
 			return nuevo_registro;
 	}
 	
-	@ApiMethod(name = "loginMedico", path = "loginMedico")
-	public Medico loginMedico(@Named("email") String email, @Named("password") String password) {
+	@ApiMethod(name = "loginMedico", path = "loginMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Medico loginMedico(User user) throws UnauthorizedException {
+		
+		if (user == null) throw new UnauthorizedException("User is Not Valid");
 
 		Medico medico_login = null;
+		medico_login = getMedicoByIDGoogle(user.getId());
 		
-		if(medicoEnBD(email, password) != null)
-			medico_login = medicoEnBD(email, password);
+		if(medico_login.getValidado() == 0)
+			throw new UnauthorizedException("Invalid account.");
 		
 		return medico_login;
 	}
 	
-	@ApiMethod(name = "getPacientesAsociadosMedico", path = "getPacientesAsociadosMedico")
-	public CollectionResponse<Paciente> getPacientesAsociadosByIDMedico(@Named("id_medico") String id_medico) {
+	@ApiMethod(name = "getPacientesSinMedico", path = "getPacientesSinMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Paciente> getPacientesSinMedico(User user) throws UnauthorizedException {
+
+		Medico medico = loginMedico(user);
+		List<Paciente> pacientes_sin_medico = new ArrayList<Paciente>();
+		
+		PersistenceManager mgr = null;
+		mgr = getPersistenceManager();
+
+		try {
+			
+			Query query = mgr.newQuery("select from " + Paciente.class.getName()
+			        + " where MedicoAsociado == null && validado == 1" );
+			List<Paciente> results = (List<Paciente>) query.execute();
+			
+			
+			for (Paciente obj : results) {
+				pacientes_sin_medico.add(obj);
+			}
+			
+		} finally {
+			mgr.close();
+		}
+		
+		
+		return CollectionResponse.<Paciente> builder().setItems(pacientes_sin_medico).build();
+	}
+	
+	@ApiMethod(name = "getPacientesAsociadosMedico", path = "getPacientesAsociadosMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Paciente> getPacientesAsociadosByIDMedico(User user) throws UnauthorizedException {
 
 		Medico medico = null;
 		List<Paciente> pacientes = new ArrayList<Paciente>();
 		
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 		
 		PersistenceManager mgr = null;
 
@@ -851,12 +993,16 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Paciente> builder().setItems(pacientes).build();
 	}
 	
-	@ApiMethod(name = "getMensajesTotalesMedico", path = "getMensajesTotalesMedico")
-	public CollectionResponse<Mensaje> getMensajesTotalesByIDMedico(@Named("id_medico") String id_medico) {
+	@ApiMethod(name = "getMensajesTotalesMedico", path = "getMensajesTotalesMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Mensaje> getMensajesTotalesByIDMedico(User user) throws UnauthorizedException {
 		
 		Medico medico = null;
 		List<Mensaje> mensajes = new ArrayList<Mensaje>();
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 		
 		PersistenceManager mgr = null;
 
@@ -876,10 +1022,14 @@ public class AnxisEndpoint {
 
 	}
 	
-	@ApiMethod(name = "getMensajesPorLeerMedico", path = "getMensajesPorLeerMedico")
-	public CollectionResponse<Mensaje> getMensajesPorLeerByIDMedico(@Named("id_medico") String id_medico) {
+	@ApiMethod(name = "getMensajesPorLeerMedico", path = "getMensajesPorLeerMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Mensaje> getMensajesPorLeerByIDMedico(User user) throws UnauthorizedException {
 
-		Medico medico = getMedicoByID(id_medico);
+		Medico medico = loginMedico(user);
 		PersistenceManager pm = PMF.get().getPersistenceManager();  
 	    Query query = pm.newQuery("select from "+Mensaje.class.getName()+" WHERE idMedicoReceptorMensaje == keyParam && visto == s");
 	    query.declareParameters("int s, String keyParam");
@@ -889,15 +1039,18 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Mensaje> builder().setItems(results).build();
 	}
 	
-	@ApiMethod(name = "sendMensajePacienteMedico")
-	public Mensaje sendMensajePacienteByIDMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente,
-			Mensaje mensaje) {
+	@ApiMethod(name = "sendMensajePacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Mensaje sendMensajePacienteByIDMedico(@Named("id_paciente") String id_paciente,
+			Mensaje mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente pacienteenvio = null;
 
-		pacienteenvio = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		pacienteenvio = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		mensaje.setIdPacienteReceptorMensaje(pacienteenvio.getId_paciente());
 		
 		
@@ -914,14 +1067,17 @@ public class AnxisEndpoint {
 		return mensaje;
 	}
 	
-	@ApiMethod(name = "setMensajeLeidoMedico")
-	public Mensaje setMensajeLeidoByIDMedico(@Named("id_medico") String id_medico,
-			@Named("id_mensaje") String id_mensaje) {
+	@ApiMethod(name = "setMensajeLeidoMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Mensaje setMensajeLeidoByIDMedico(@Named("id_mensaje") String id_mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Mensaje mensaje_leido = null;
 
-		mensaje_leido = getMensajeByIDMensajeMedico(id_medico, id_mensaje);
+		mensaje_leido = getMensajeByIDMensajeMedico(loginMedico(user).getId_medico(), id_mensaje);
 		
 		mensaje_leido.setVisto(1);
 		
@@ -936,17 +1092,20 @@ public class AnxisEndpoint {
 		return mensaje_leido;
 	}
 	
-	@ApiMethod(name = "borrarMensajeMedico")
-	public void borrarMensajeMedico(@Named("id_medico") String id_medico,
-			@Named("id_mensaje") String id_mensaje) {
+	@ApiMethod(name = "borrarMensajeMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public void borrarMensajeMedico(@Named("id_mensaje") String id_mensaje, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		Mensaje mensaje = null;
 		
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 
-		mensaje = getMensajeByIDMensajeMedico(id_medico, id_mensaje);
+		mensaje = getMensajeByIDMensajeMedico(loginMedico(user).getId_medico(), id_mensaje);
 		
 		medico.getMensajes().remove(mensaje.getId_mensaje());
 		
@@ -960,25 +1119,31 @@ public class AnxisEndpoint {
 		}
 	}
 	
-	@ApiMethod(name = "getPacienteConcretoMedico")
-	public Paciente getPacienteConcretoMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "getPacienteConcretoMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente getPacienteConcretoMedico(@Named("id_paciente") String id_paciente, User user) throws UnauthorizedException {
 
 		Paciente pacienteconcreto = null;
 		
-		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 
 		return pacienteconcreto;
 	}
 	
-	@ApiMethod(name = "addPacienteMedico")
-	public Paciente addPacienteMedico(@Named("id_medico") String id_medico,
-			Paciente paciente) {
+	@ApiMethod(name = "addPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente addPacienteMedico(Paciente paciente, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 		
 		paciente.setEncuestas(new ArrayList<String>());
 		paciente.setTestAsociados(new ArrayList<String>());
@@ -999,14 +1164,17 @@ public class AnxisEndpoint {
 		
 	}
 	
-	@ApiMethod(name = "addPacienteByIDMedico", path = "addPacienteByIDMedico")
-	public Paciente addPacienteByIDMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "addPacienteByIDMedico", path = "addPacienteByIDMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente addPacienteByIDMedico(@Named("id_paciente") String id_paciente, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 		
 		Paciente paciente = getPacienteByID(id_paciente);
 		
@@ -1029,16 +1197,19 @@ public class AnxisEndpoint {
 		
 	}
 	
-	@ApiMethod(name = "borrarPacienteMedico")
-	public void borrarPacienteMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente) {
+	@ApiMethod(name = "borrarPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public void borrarPacienteMedico(@Named("id_paciente") String id_paciente, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		Paciente pacienteborrar = null;
 		
-		medico = getMedicoByID(id_medico);
-		pacienteborrar = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		medico = loginMedico(user);
+		pacienteborrar = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		
 		medico.getPacientes().remove(pacienteborrar.getId_paciente());
 		
@@ -1053,26 +1224,33 @@ public class AnxisEndpoint {
 		
 	}
 	
-	@ApiMethod(name = "getListaTestsCreadosMedico", path = "getListaTestsCreadosMedico")
-	public CollectionResponse<Test> getListaTestsCreadosByIDMedico(@Named("id_medico") String id_medico) {
+	@ApiMethod(name = "getListaTestsCreadosMedico", path = "getListaTestsCreadosMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Test> getListaTestsCreadosByIDMedico(User user) throws UnauthorizedException {
 
 		List<Test> testcreados = new ArrayList<Test>();
 
-		testcreados = getTestsCreadosByIDMedico(id_medico);
+		testcreados = getTestsCreadosByIDMedico(loginMedico(user).getId_medico());
 
 		return CollectionResponse.<Test> builder().setItems(testcreados).build();
 	}
 	
-	@ApiMethod(name = "crearTestMedico")
-	public Test crearTestMedico(@Named("id_medico") String id_medico,
-			Test test) {
+	@ApiMethod(name = "crearTestMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Test crearTestMedico(Test test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		Test t = test;
 		
 		
-		medico = getMedicoByID(id_medico);
+		medico = loginMedico(user);
 		
 		t.setActividadesTest(new ArrayList<String>());
 		t.setPacientesAsociados(new ArrayList<String>());
@@ -1095,16 +1273,19 @@ public class AnxisEndpoint {
 		return test;
 	}
 	
-	@ApiMethod(name = "borrarTestMedico")
-	public void borrarTestMedico(@Named("id_medico") String id_medico,
-			@Named("id_test") String id_test) {
+	@ApiMethod(name = "borrarTestMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public void borrarTestMedico(@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Medico medico = null;
 		Test testborrar = null;
 		
-		medico = getMedicoByID(id_medico);
-		testborrar = getTestConcretoByIDTestMedico(id_medico,id_test);
+		medico = loginMedico(user);
+		testborrar = getTestConcretoByIDTestMedico(loginMedico(user).getId_medico(),id_test);
 		
 		medico.getTestMedico().remove(testborrar.getId_test());
 		
@@ -1119,19 +1300,22 @@ public class AnxisEndpoint {
 		
 	}
 	
-	@ApiMethod(name = "proporcionarTestAPacienteMedico")
-	public Paciente proporcionarNuevoTestAPacienteMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente,
-			Test test) {
+	@ApiMethod(name = "proporcionarTestAPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente proporcionarNuevoTestAPacienteMedico(@Named("id_paciente") String id_paciente,
+			Test test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente pacienteconcreto = null;
 		
-		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		
 		test.setActividadesTest(new ArrayList<String>());
 		test.setPacientesAsociados(new ArrayList<String>());
-		test.setMedicoCreador(getMedicoByID(id_medico).getId_medico());
+		test.setMedicoCreador(loginMedico(user).getId_medico());
 		
 		try {
 			mgr = getPersistenceManager();
@@ -1146,18 +1330,21 @@ public class AnxisEndpoint {
 		return pacienteconcreto;
 	}
 	
-	@ApiMethod(name = "proporcionarTestCreadoAPacienteMedico",  path = "proporcionarTestCreadoAPacienteMedico")
-	public Paciente proporcionarTestCreadoAPacienteMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente,
-			@Named("id_test") String id_test) {
+	@ApiMethod(name = "proporcionarTestCreadoAPacienteMedico",  path = "proporcionarTestCreadoAPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Paciente proporcionarTestCreadoAPacienteMedico(@Named("id_paciente") String id_paciente,
+			@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente pacienteconcreto = null;
 		Test test_add = null;
 		
-		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		
-		test_add = getTestConcretoByIDTestMedico(id_medico, id_test);
+		test_add = getTestConcretoByIDTestMedico(loginMedico(user).getId_medico(), id_test);
 		
 		
 		try {
@@ -1172,15 +1359,18 @@ public class AnxisEndpoint {
 		return pacienteconcreto;
 	}
 	
-	@ApiMethod(name = "quitarTestAPacienteMedico")
-	public void quitarTestAPacienteMedico(@Named("id_medico") String id_medico,
-			@Named("id_paciente") String id_paciente,
-			@Named("id_test") String id_test) {
+	@ApiMethod(name = "quitarTestAPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public void quitarTestAPacienteMedico(@Named("id_paciente") String id_paciente,
+			@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Paciente pacienteconcreto = null;
 		
-		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(id_medico, id_paciente);
+		pacienteconcreto = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		
 		pacienteconcreto.getTestAsociados().remove(getTestAsociadoByIDTestPaciente(id_paciente, id_test).getId_test());
 		
@@ -1193,15 +1383,19 @@ public class AnxisEndpoint {
 		}
 	}
 	
-	@ApiMethod(name = "updateMedico")
-	public Medico updateMedico(@Named("id_medico") String id_medico) {
+	@ApiMethod(name = "updateMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Medico updateMedico(User user) throws UnauthorizedException {
 		PersistenceManager mgr = getPersistenceManager();
 		Medico medico = null;
 		try {
-			if (!containsMedico(id_medico)) {
+			if (!containsMedico(loginMedico(user).getId_medico())) {
 				throw new EntityNotFoundException("Este medico no existe en nuestra base de datos");
 			}
-			Key k = KeyFactory.stringToKey(id_medico);
+			Key k = KeyFactory.stringToKey(loginMedico(user).getId_medico());
 			//Key k = KeyFactory.createKey(Paciente.class.getSimpleName(), id_paciente);
 			medico = mgr.getObjectById(Medico.class, k);
 			mgr.makePersistent(medico);
@@ -1211,7 +1405,7 @@ public class AnxisEndpoint {
 		return medico;
 	}
 	
-	private boolean registroValido(String email) throws UnauthorizedException {
+	/*private boolean registroValido(String email) throws UnauthorizedException {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean valido = false;
 		Query query = mgr.newQuery("select from " + Registros.class.getName()
@@ -1226,6 +1420,25 @@ public class AnxisEndpoint {
 		}
 		
 		return valido;
+	}*/
+	
+	private boolean registroValido(String id_google) throws UnauthorizedException {
+	PersistenceManager mgr = getPersistenceManager();
+	boolean valido = false;
+	Query query = mgr.newQuery("select from " + Medico.class.getName()
+	        + " where id_google == '" +id_google+"'" );
+	List<Medico> results = (List<Medico>) query.execute();
+	
+	if (!results.isEmpty()) {
+		if(results.get(0).getValidado() == 1) {
+			valido = true;
+		}
+		else {
+			throw new UnauthorizedException("Invalid register");
+		}
+	}
+	
+	return valido;
 	}
 
 	private boolean containsMedico(String id_medico) {
@@ -1273,25 +1486,37 @@ public class AnxisEndpoint {
 		return medico;
 	}
 	
-	private Medico medicoEnBD(String email, String pass) {
+	private Medico getMedicoByIDGoogle(String id_google) {
+		Medico medico = null;
 		PersistenceManager mgr = null;
-		Medico medico_login = null;
-		
 		try {
 			mgr = getPersistenceManager();
-			
 			Query query = mgr.newQuery("select from " + Medico.class.getName()
-			        + " where Email== '" +email+
-			        "' &&  Password=='"+pass+"'" );
+			        + " where id_google == '" +id_google+"'" );
 			List<Medico> results = (List<Medico>) query.execute();
-			
-			if (!results.isEmpty()) {
-				medico_login = results.get(0);
+			medico = results.get(0);
+		} finally {
+			mgr.close();
+		}
+		return medico;
+	}
+	
+	private boolean medicoEnBD(String id_google) {
+		boolean ya_registrado = true;
+		PersistenceManager mgr = null;
+		try {
+			mgr = getPersistenceManager();
+			Query query = mgr.newQuery("select from " + Medico.class.getName()
+			        + " where id_google == '" +id_google+"'" );
+			List<Medico> results = (List<Medico>) query.execute();
+
+			if(results.isEmpty()) {
+				ya_registrado = false;
 			}
 		} finally {
 			mgr.close();
 		}
-		return medico_login;
+		return ya_registrado;
 	}
 	
 	private List<Test> getTestsCreadosByIDMedico(String id_medico) {
