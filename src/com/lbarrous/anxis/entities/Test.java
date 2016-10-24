@@ -30,14 +30,7 @@ public class Test {
         List<String> PacientesAsociados;
         @Persistent
         Date fechaFinalizacion;
-        @Persistent
-        @Column(defaultValue="0")
-        int finalizado;
         
-        
-        
-		
-		
 		public String getMedicoCreador() {
 			return MedicoCreador;
 		}
@@ -56,12 +49,6 @@ public class Test {
 		}
 		public void setFechaFinalizacion(Date fechaFinalizacion) {
 			this.fechaFinalizacion = fechaFinalizacion;
-		}
-		public int getFinalizado() {
-			return finalizado;
-		}
-		public void setFinalizado(int finalizado) {
-			this.finalizado = finalizado;
 		}
 		
 		

@@ -25,6 +25,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.annotations.Persistent;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -565,28 +566,29 @@ public class AnxisEndpoint {
 				     Constants.ANDROID_CLIENT_ID, 
 				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
 				     audiences = {Constants.ANDROID_AUDIENCE})
-	public Test finalizarTestPaciente(@Named("id_test") String id_test, User user) throws UnauthorizedException {
+	public RegistroTest finalizarTestPaciente(@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		List<Test> testasociados = new ArrayList<Test>();
 		Test test_cambio = null;
+		RegistroTest nuevo_test = new RegistroTest();
 
 		try {
 			mgr = getPersistenceManager();
 			testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
 			for (Test obj : testasociados) {
 				if(obj.getId_test().equals(id_test)) {
-					obj.setFinalizado(1);
-					obj.setFechaFinalizacion(new Date());
-					mgr.makePersistent(obj);
-					test_cambio = obj;
+					nuevo_test.setId_paciente(loginPaciente(user).getId_paciente());
+					nuevo_test.setId_test(id_test);
+					nuevo_test.setFechaFinalizacion(new Date());
+					mgr.makePersistent(nuevo_test);
 				}
 			}
 		} finally {
 			mgr.close();
 		}
 
-		return test_cambio;
+		return nuevo_test;
 	}
 	
 	@ApiMethod(name = "realizarEncuestaPaciente", path = "realizarEncuestaPaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
@@ -623,15 +625,26 @@ public class AnxisEndpoint {
 				     audiences = {Constants.ANDROID_AUDIENCE})
 	public CollectionResponse<Test> getListaTestsFinalizadosByIDPaciente(User user) throws UnauthorizedException {
 
-		List<Test> testasociados = new ArrayList<Test>();
 		List<Test> testfinalizados = new ArrayList<Test>();
-
-		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
+		PersistenceManager mgr = null;
 		
-		for (Test obj : testasociados) {
-			if(obj.getFinalizado() == 1) {
-				testfinalizados.add(obj);
+		Paciente paciente = null;
+		paciente = getPacienteByID(loginPaciente(user).getId_paciente());
+
+		mgr = getPersistenceManager();
+		
+		try {
+			Query query = mgr.newQuery("select from " + RegistroTest.class.getName()
+			        + " where id_paciente == '" +paciente.getId_paciente()+"'" );
+			List<RegistroTest> results = (List<RegistroTest>) query.execute();
+			
+			for (RegistroTest obj : results) {
+				if(!testfinalizados.contains(getTestByID(obj.getId_test())))
+					testfinalizados.add(getTestByID(obj.getId_test()));
 			}
+			
+		} finally {
+			mgr.close();
 		}
 
 		return CollectionResponse.<Test> builder().setItems(testfinalizados).build();
@@ -644,18 +657,39 @@ public class AnxisEndpoint {
 				     audiences = {Constants.ANDROID_AUDIENCE})
 	public CollectionResponse<Test> getListaTestsPorIniciarByIDPaciente(User user) throws UnauthorizedException {
 
+		List<Test> testfinalizados = new ArrayList<Test>();
+		List<Test> testporiniciar = new ArrayList<Test>();
 		List<Test> testasociados = new ArrayList<Test>();
-		List<Test> testporfinalizar = new ArrayList<Test>();
-
-		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
+		PersistenceManager mgr = null;
 		
-		for (Test obj : testasociados) {
-			if(obj.getFinalizado() == 0) {
-				testporfinalizar.add(obj);
+		Paciente paciente = null;
+		paciente = getPacienteByID(loginPaciente(user).getId_paciente());
+		testasociados = getTestsAsociadosByIDPaciente(loginPaciente(user).getId_paciente());
+
+		mgr = getPersistenceManager();
+		
+		try {
+			Query query = mgr.newQuery("select from " + RegistroTest.class.getName()
+			        + " where id_paciente == '" +paciente.getId_paciente()+"'" );
+			List<RegistroTest> results = (List<RegistroTest>) query.execute();
+			
+			for (RegistroTest obj : results) {
+				if(!testfinalizados.contains(getTestByID(obj.getId_test())))
+					testfinalizados.add(getTestByID(obj.getId_test()));
 			}
+			
+			for (Test obj : testasociados) {
+				if(!testfinalizados.contains(obj))
+					testporiniciar.add(obj);
+			}
+			
+			
+			
+		} finally {
+			mgr.close();
 		}
 
-		return CollectionResponse.<Test> builder().setItems(testporfinalizar).build();
+		return CollectionResponse.<Test> builder().setItems(testporiniciar).build();
 	}
 	
 	@ApiMethod(name = "updatePaciente", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
@@ -907,10 +941,6 @@ public class AnxisEndpoint {
 			} finally {
 				mgr.close();
 			}
-			
-			Upload upload;
-			File file = new UploadController().uploadFile("<", upload);
-			
 			return nuevo_registro;
 	}
 	
@@ -992,6 +1022,125 @@ public class AnxisEndpoint {
 		
 		return CollectionResponse.<Paciente> builder().setItems(pacientes).build();
 	}
+	
+	@ApiMethod(name = "getMediaEncuestasPacientesMedico", path = "getMediaEncuestasPacientesMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Float> getMediaEncuestasPacientesMedico(User user) throws UnauthorizedException {
+
+		Medico medico = null;
+		Encuesta encuesta = new Encuesta();
+	        float Miedo = 0;
+	        float Ansiedad = 0;
+	        float SensacionFisica = 0;
+	        float Confianza = 0;
+	        float PrevisionMejora = 0;
+	        float General = 0;
+	        int num_encuestas = 0;
+	        List<Float> medias = new ArrayList<Float>();
+		List<Paciente> pacientes = new ArrayList<Paciente>();
+		
+		medico = loginMedico(user);
+		
+		PersistenceManager mgr = null;
+
+		try {
+			mgr = getPersistenceManager();
+			if(!medico.getPacientes().isEmpty()) {
+				
+				for (String obj : medico.getPacientes()) {
+					Key k = KeyFactory.stringToKey(obj);
+					Paciente m = mgr.getObjectById(Paciente.class, k);
+					
+					for(String obj2 : m.getEncuestas()) {
+						Key k2 = KeyFactory.stringToKey(obj2);
+						Encuesta e = mgr.getObjectById(Encuesta.class, k2);
+						Miedo += e.getMiedo();
+				        Ansiedad += e.getAnsiedad();
+				        SensacionFisica += e.getSensacionFisica();
+				        Confianza += e.getConfianza();
+				        PrevisionMejora += e.getPrevisionMejora();
+				        General += e.getGeneral();
+				        num_encuestas++;
+					}
+					
+				}
+			}
+			
+			medias.add(Miedo);
+			medias.add(Ansiedad);
+			medias.add(SensacionFisica);
+			medias.add(Confianza);
+			medias.add(PrevisionMejora);
+			medias.add(General);
+			
+		} finally {
+			mgr.close();
+		}
+		
+		return CollectionResponse.<Float> builder().setItems(medias).build();
+	}
+	
+	@ApiMethod(name = "getTestsRealizadosPacientesMedico", path = "getTestsRealizadosPacientesMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Integer> getTestsRealizadosPacientesMedico(User user) throws UnauthorizedException {
+
+		++cambiar
+		Medico medico = null;
+		Encuesta encuesta = new Encuesta();
+	        int ninguna = 0;
+	        int una_dos = 0;
+	        int tres_cinco = 0;
+	        int seis_nueve = 0;
+	        int diez_o_mas = 0;
+	        
+	        List<Integer> porcentajes_encuestas = new ArrayList<Integer>();
+		List<Paciente> pacientes = new ArrayList<Paciente>();
+		
+		medico = loginMedico(user);
+		
+		PersistenceManager mgr = null;
+
+		try {
+			mgr = getPersistenceManager();
+			if(!medico.getPacientes().isEmpty()) {
+				
+				for (String obj : medico.getPacientes()) {
+					Key k = KeyFactory.stringToKey(obj);
+					Paciente m = mgr.getObjectById(Paciente.class, k);
+					
+					if(m.getEncuestas().size() < 1)
+						ninguna += 1;
+					else if(m.getEncuestas().size() > 0 && m.getEncuestas().size() < 3)
+						una_dos += 1;
+					else if(m.getEncuestas().size() > 2 && m.getEncuestas().size() < 6)
+						tres_cinco += 1;
+					else if(m.getEncuestas().size() > 5 && m.getEncuestas().size() < 10)
+						seis_nueve += 1;
+					else if(m.getEncuestas().size() >= 10)
+						diez_o_mas += 1;
+					
+				}
+			}
+			
+			porcentajes_encuestas.add(ninguna);
+			porcentajes_encuestas.add(una_dos);
+			porcentajes_encuestas.add(tres_cinco);
+			porcentajes_encuestas.add(seis_nueve);
+			porcentajes_encuestas.add(diez_o_mas);
+			
+		} finally {
+			mgr.close();
+		}
+		
+		return CollectionResponse.<Integer> builder().setItems(porcentajes_encuestas).build();
+	}
+
 	
 	@ApiMethod(name = "getMensajesTotalesMedico", path = "getMensajesTotalesMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
 			clientIds = {Constants.WEB_CLIENT_ID, 
@@ -1594,8 +1743,12 @@ public class AnxisEndpoint {
 	
 	/****************************************************************************************************************/
 	
-	@ApiMethod(name = "getListaActividadesTest")
-	public CollectionResponse<Actividad> getListaActividadesTest(@Named("id_test") String id_test) {
+	@ApiMethod(name = "getListaActividadesTest", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public CollectionResponse<Actividad> getListaActividadesTest(@Named("id_test") String id_test, User user) throws UnauthorizedException {
 
 		List<Actividad> actividadesasociadas = new ArrayList<Actividad>();
 
@@ -1604,9 +1757,13 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Actividad> builder().setItems(actividadesasociadas).build();
 	}
 	
-	@ApiMethod(name = "getActividadConcretaTest")
+	@ApiMethod(name = "getActividadConcretaTest", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
 	public Actividad getActividadConcretaTest(@Named("id_test") String id_test,
-			@Named("id_actividad") String id_actividad) {
+			@Named("id_actividad") String id_actividad, User user) throws UnauthorizedException {
 
 		Actividad actividadconcreta = null;
 		
@@ -1615,15 +1772,20 @@ public class AnxisEndpoint {
 		return actividadconcreta;
 	}
 	
-	@ApiMethod(name = "addActividadTest")
+	@ApiMethod(name = "addActividadTest", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
 	public Actividad addActividadTest(@Named("id_test") String id_test,
-			Actividad actividad) {
+			Actividad actividad, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Test test = null;
 		
 		test = getTestByID(id_test);
 		actividad.setTestAsociado(test.getId_test());
+		actividad.setPreguntasActividad(new ArrayList<String>());
 		
 		try {
 			mgr = getPersistenceManager();
@@ -1637,9 +1799,62 @@ public class AnxisEndpoint {
 		return actividad;
 	}
 	
+	@ApiMethod(name = "addPreguntaActividad", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Pregunta addPreguntaActividad(@Named("id_actividad") String id_actividad,
+			Pregunta pregunta, User user) throws UnauthorizedException {
+
+		PersistenceManager mgr = null;
+		Actividad actividad = null;
+		
+		actividad = getActividadByID(id_actividad);
+		pregunta.setActividadAsociada(actividad.getId_actividad());
+		
+		try {
+			mgr = getPersistenceManager();
+			mgr.makePersistent(pregunta);
+			actividad.getPreguntasActividad().add(pregunta.getId_pregunta());
+			mgr.makePersistent(actividad);
+		} finally {
+			mgr.close();
+		}
+		
+		return pregunta;
+	}
+	
+	@ApiMethod(name = "responderPregunta", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Respuesta responderPregunta(@Named("id_pregunta") String id_pregunta,
+			@Named("respuesta") String respuesta, User user) throws UnauthorizedException {
+
+		PersistenceManager mgr = null;
+		Respuesta respuesta_guardar = new Respuesta();
+		
+		Paciente paciente = getPacienteByID(loginPaciente(user).getId_paciente());
+		
+		respuesta_guardar.setId_paciente(paciente.getId_paciente());
+		respuesta_guardar.setId_pregunta(id_pregunta);
+		respuesta_guardar.setRespuesta(respuesta);
+		
+		try {
+			mgr = getPersistenceManager();
+			mgr.makePersistent(respuesta_guardar);
+		} finally {
+			mgr.close();
+		}
+		
+		return respuesta_guardar;
+	}
+	
 	@ApiMethod(name = "removeActividadTest")
 	public void removeActividadTest(@Named("id_test") String id_test,
-			@Named("id_actividad") String id_actividad) {
+			@Named("id_actividad") String id_actividad, User user) throws UnauthorizedException {
 
 		PersistenceManager mgr = null;
 		Test test = null;

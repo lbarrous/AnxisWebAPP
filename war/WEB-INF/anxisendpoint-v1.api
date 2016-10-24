@@ -28,6 +28,78 @@
   "ownerName" : "example.com",
   "packagePath" : "com.example.entities",
   "methods" : {
+    "anxisendpoint.crearTestMedico" : {
+      "path" : "crearTestMedico",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.crearTestMedico",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.registrarMedico" : {
+      "path" : "registrarMedico",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.registrarMedico",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.validacionMedico" : {
+      "path" : "validarMedico/{id_medico}/{valido}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.validarMedico",
+      "request" : {
+        "parameters" : {
+          "id_medico" : {
+            "type" : "string",
+            "required" : true
+          },
+          "valido" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.loginMedico" : {
+      "path" : "loginMedico",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.loginMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "anxisendpoint.updatePaciente" : {
       "path" : "paciente",
       "httpMethod" : "PUT",
@@ -83,131 +155,16 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.validacionMedico" : {
-      "path" : "validarMedico/{id_medico}/{valido}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.validarMedico",
-      "request" : {
-        "parameters" : {
-          "id_medico" : {
-            "type" : "string",
-            "required" : true
-          },
-          "valido" : {
-            "type" : "int32",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.registrarMedico" : {
-      "path" : "registrarMedico",
-      "httpMethod" : "POST",
+    "anxisendpoint.getListaTestFinalizadosPaciente" : {
+      "path" : "getListaTestFinalizadosPaciente",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.registrarMedico",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.updateMedico" : {
-      "path" : "medico",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.updateMedico",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsFinalizadosByIDPaciente",
       "request" : {
         "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.addActividadTest" : {
-      "path" : "addActividadTest/{id_test}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.addActividadTest",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.loginMedico" : {
-      "path" : "loginMedico",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.loginMedico",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.borrarTestMedico" : {
-      "path" : "borrarTestMedico/{id_test}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.borrarTestMedico",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "anxisendpoint.crearTestMedico" : {
-      "path" : "crearTestMedico",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.crearTestMedico",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -250,14 +207,14 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.getListaTestFinalizadosPaciente" : {
-      "path" : "getListaTestFinalizadosPaciente",
+    "anxisendpoint.getTestsRealizadosPacientesMedico" : {
+      "path" : "getTestsRealizadosPacientesMedico",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsFinalizadosByIDPaciente",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getTestsRealizadosPacientesMedico",
       "request" : {
         "body" : "empty"
       },
@@ -290,32 +247,59 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.registrarPaciente" : {
-      "path" : "registrarPaciente",
+    "anxisendpoint.borrarTestMedico" : {
+      "path" : "borrarTestMedico/{id_test}",
       "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.registrarPaciente",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.borrarTestMedico",
       "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "anxisendpoint.updateMedico" : {
+      "path" : "medico",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.updateMedico",
+      "request" : {
+        "body" : "empty"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.getMedicoAsociadoPaciente" : {
-      "path" : "getMedicoAsociadoPaciente",
-      "httpMethod" : "GET",
+    "anxisendpoint.addActividadTest" : {
+      "path" : "addActividadTest/{id_test}",
+      "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMedicoAsociadoByIDPaciente",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.addActividadTest",
       "request" : {
-        "body" : "empty"
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -331,242 +315,6 @@
       "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDPaciente",
       "request" : {
         "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getMensajesTotalesPaciente" : {
-      "path" : "getMensajesTotalesPaciente",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesTotalesByIDPaciente",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.quitarTestAPacienteMedico" : {
-      "path" : "quitarTestAPacienteMedico/{id_paciente}/{id_test}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.quitarTestAPacienteMedico",
-      "request" : {
-        "parameters" : {
-          "id_paciente" : {
-            "type" : "string",
-            "required" : true
-          },
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "anxisendpoint.getActividadConcretaTest" : {
-      "path" : "actividad/{id_test}/{id_actividad}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getActividadConcretaTest",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          },
-          "id_actividad" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.removeActividadTest" : {
-      "path" : "actividadtest/{id_test}/{id_actividad}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.removeActividadTest",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          },
-          "id_actividad" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
-    "anxisendpoint.setMensajeLeidoMedico" : {
-      "path" : "setMensajeLeidoByIDMedico/{id_mensaje}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.setMensajeLeidoByIDMedico",
-      "request" : {
-        "parameters" : {
-          "id_mensaje" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getMensajesPorLeerMedico" : {
-      "path" : "getMensajesPorLeerMedico",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDMedico",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getListaTestsCreadosMedico" : {
-      "path" : "getListaTestsCreadosMedico",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsCreadosByIDMedico",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.sendMensajePacienteMedico" : {
-      "path" : "sendMensajePacienteByIDMedico/{id_paciente}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.sendMensajePacienteByIDMedico",
-      "request" : {
-        "parameters" : {
-          "id_paciente" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getPacientesSinMedico" : {
-      "path" : "getPacientesSinMedico",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesSinMedico",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getListaActividadesTest" : {
-      "path" : "collectionresponse_actividad/{id_test}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaActividadesTest",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.setTestFinalizadoPaciente" : {
-      "path" : "finalizarTestPaciente/{id_test}",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.finalizarTestPaciente",
-      "request" : {
-        "parameters" : {
-          "id_test" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.realizarEncuestaPaciente" : {
-      "path" : "realizarEncuestaPaciente",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.realizarEncuestaPaciente",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -588,16 +336,17 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.getListaEncuestasPaciente" : {
-      "path" : "getListaEncuestasPaciente",
-      "httpMethod" : "GET",
+    "anxisendpoint.registrarPaciente" : {
+      "path" : "registrarPaciente",
+      "httpMethod" : "POST",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaEncuestasByIDPaciente",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.registrarPaciente",
       "request" : {
-        "body" : "empty"
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -624,15 +373,67 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "anxisendpoint.getPacientesAsociadosMedico" : {
-      "path" : "getPacientesAsociadosMedico",
+    "anxisendpoint.getMedicoAsociadoPaciente" : {
+      "path" : "getMedicoAsociadoPaciente",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
       "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
       "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesAsociadosByIDMedico",
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMedicoAsociadoByIDPaciente",
       "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getMensajesTotalesPaciente" : {
+      "path" : "getMensajesTotalesPaciente",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesTotalesByIDPaciente",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.addPacienteMedico" : {
+      "path" : "addPacienteMedico",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.addPacienteMedico",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.setTestFinalizadoPaciente" : {
+      "path" : "finalizarTestPaciente/{id_test}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.finalizarTestPaciente",
+      "request" : {
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
         "body" : "empty"
       },
       "response" : {
@@ -660,6 +461,21 @@
         "body" : "empty"
       }
     },
+    "anxisendpoint.getListaEncuestasPaciente" : {
+      "path" : "getListaEncuestasPaciente",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaEncuestasByIDPaciente",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "anxisendpoint.getPacienteConcretoMedico" : {
       "path" : "paciente/{id_paciente}",
       "httpMethod" : "GET",
@@ -676,37 +492,6 @@
           }
         },
         "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.getListaTestsPaciente" : {
-      "path" : "getListaTestsPaciente",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsByIDPaciente",
-      "request" : {
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "anxisendpoint.addPacienteMedico" : {
-      "path" : "addPacienteMedico",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
-      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
-      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.addPacienteMedico",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -775,6 +560,150 @@
         "body" : "empty"
       }
     },
+    "anxisendpoint.getMediaEncuestasPacientesMedico" : {
+      "path" : "getMediaEncuestasPacientesMedico",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMediaEncuestasPacientesMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.quitarTestAPacienteMedico" : {
+      "path" : "quitarTestAPacienteMedico/{id_paciente}/{id_test}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.quitarTestAPacienteMedico",
+      "request" : {
+        "parameters" : {
+          "id_paciente" : {
+            "type" : "string",
+            "required" : true
+          },
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "anxisendpoint.getActividadConcretaTest" : {
+      "path" : "actividad/{id_test}/{id_actividad}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getActividadConcretaTest",
+      "request" : {
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          },
+          "id_actividad" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getListaActividadesTest" : {
+      "path" : "collectionresponse_actividad/{id_test}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaActividadesTest",
+      "request" : {
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.addPreguntaActividad" : {
+      "path" : "addPreguntaActividad/{id_actividad}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.addPreguntaActividad",
+      "request" : {
+        "parameters" : {
+          "id_actividad" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getListaTestsPaciente" : {
+      "path" : "getListaTestsPaciente",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsByIDPaciente",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.setMensajeLeidoMedico" : {
+      "path" : "setMensajeLeidoByIDMedico/{id_mensaje}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.setMensajeLeidoByIDMedico",
+      "request" : {
+        "parameters" : {
+          "id_mensaje" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "anxisendpoint.getMensajesTotalesMedico" : {
       "path" : "getMensajesTotalesMedico",
       "httpMethod" : "GET",
@@ -789,76 +718,186 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "anxisendpoint.getPacientesAsociadosMedico" : {
+      "path" : "getPacientesAsociadosMedico",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesAsociadosByIDMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getPacientesSinMedico" : {
+      "path" : "getPacientesSinMedico",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesSinMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.sendMensajePacienteMedico" : {
+      "path" : "sendMensajePacienteByIDMedico/{id_paciente}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.sendMensajePacienteByIDMedico",
+      "request" : {
+        "parameters" : {
+          "id_paciente" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getListaTestsCreadosMedico" : {
+      "path" : "getListaTestsCreadosMedico",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsCreadosByIDMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.realizarEncuestaPaciente" : {
+      "path" : "realizarEncuestaPaciente",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.realizarEncuestaPaciente",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.getMensajesPorLeerMedico" : {
+      "path" : "getMensajesPorLeerMedico",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDMedico",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "anxisendpoint.removeActividadTest" : {
+      "path" : "actividadtest/{id_test}/{id_actividad}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.removeActividadTest",
+      "request" : {
+        "parameters" : {
+          "id_test" : {
+            "type" : "string",
+            "required" : true
+          },
+          "id_actividad" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "anxisendpoint.responderPregunta" : {
+      "path" : "responderPregunta/{id_pregunta}/{respuesta}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ],
+      "audiences" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com" ],
+      "clientIds" : [ "1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com", "756161739003-9e1gefoeo2f9tsnrbjchtsn2shfq7q8k.apps.googleusercontent.com", "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.lbarrous.anxis.entities.AnxisEndpoint.responderPregunta",
+      "request" : {
+        "parameters" : {
+          "id_pregunta" : {
+            "type" : "string",
+            "required" : true
+          },
+          "respuesta" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
     }
   },
   "descriptor" : {
     "schemas" : {
-      "Paciente" : {
-        "id" : "Paciente",
+      "Test" : {
+        "id" : "Test",
         "type" : "object",
         "properties" : {
-          "id_paciente" : {
+          "id_test" : {
             "type" : "string"
           },
-          "id_google" : {
-            "type" : "string"
+          "fechaFinalizacion" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "validado" : {
-            "type" : "integer"
-          },
-          "password" : {
-            "type" : "string"
-          },
-          "nick" : {
-            "type" : "string"
-          },
-          "localidad" : {
-            "type" : "string"
-          },
-          "nombre" : {
-            "type" : "string"
-          },
-          "apellidos" : {
-            "type" : "string"
-          },
-          "provincia" : {
-            "type" : "string"
-          },
-          "direccion" : {
-            "type" : "string"
-          },
-          "codigoPostal" : {
-            "type" : "string"
-          },
-          "telefono" : {
-            "type" : "string"
-          },
-          "fobia" : {
-            "type" : "string"
-          },
-          "testAsociados" : {
+          "pacientesAsociados" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
           },
-          "mensajes" : {
+          "medicoCreador" : {
+            "type" : "string"
+          },
+          "descripcion" : {
+            "type" : "string"
+          },
+          "actividadesTest" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
-          },
-          "encuestas" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "medicoAsociado" : {
-            "type" : "string"
           }
         }
       },
@@ -875,34 +914,16 @@
           "validado" : {
             "type" : "integer"
           },
-          "password" : {
-            "type" : "string"
-          },
-          "nick" : {
-            "type" : "string"
-          },
-          "localidad" : {
+          "apellidos" : {
             "type" : "string"
           },
           "nombre" : {
             "type" : "string"
           },
-          "apellidos" : {
+          "password" : {
             "type" : "string"
           },
-          "provincia" : {
-            "type" : "string"
-          },
-          "direccion" : {
-            "type" : "string"
-          },
-          "codigoPostal" : {
-            "type" : "string"
-          },
-          "telefono" : {
-            "type" : "string"
-          },
-          "mensajes" : {
+          "pacientes" : {
             "type" : "array",
             "items" : {
               "type" : "string"
@@ -914,7 +935,7 @@
               "type" : "string"
             }
           },
-          "pacientes" : {
+          "mensajes" : {
             "type" : "array",
             "items" : {
               "type" : "string"
@@ -922,64 +943,93 @@
           },
           "email" : {
             "type" : "string"
-          }
-        }
-      },
-      "Actividad" : {
-        "id" : "Actividad",
-        "type" : "object",
-        "properties" : {
-          "id_actividad" : {
+          },
+          "nick" : {
             "type" : "string"
           },
-          "tiempoSegundos" : {
-            "type" : "integer"
-          },
-          "descripcion" : {
+          "direccion" : {
             "type" : "string"
           },
-          "titulo" : {
+          "localidad" : {
             "type" : "string"
           },
-          "testAsociado" : {
+          "codigoPostal" : {
             "type" : "string"
           },
-          "recursosAuxiliares" : {
+          "provincia" : {
+            "type" : "string"
+          },
+          "telefono" : {
             "type" : "string"
           }
         }
       },
-      "Test" : {
-        "id" : "Test",
+      "Paciente" : {
+        "id" : "Paciente",
         "type" : "object",
         "properties" : {
-          "id_test" : {
+          "id_paciente" : {
             "type" : "string"
           },
-          "fechaFinalizacion" : {
-            "type" : "string",
-            "format" : "date-time"
+          "id_google" : {
+            "type" : "string"
           },
-          "finalizado" : {
+          "validado" : {
             "type" : "integer"
           },
-          "descripcion" : {
+          "apellidos" : {
             "type" : "string"
           },
-          "medicoCreador" : {
+          "nombre" : {
             "type" : "string"
           },
-          "actividadesTest" : {
+          "password" : {
+            "type" : "string"
+          },
+          "testAsociados" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
           },
-          "pacientesAsociados" : {
+          "encuestas" : {
             "type" : "array",
             "items" : {
               "type" : "string"
             }
+          },
+          "mensajes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "nick" : {
+            "type" : "string"
+          },
+          "direccion" : {
+            "type" : "string"
+          },
+          "localidad" : {
+            "type" : "string"
+          },
+          "codigoPostal" : {
+            "type" : "string"
+          },
+          "provincia" : {
+            "type" : "string"
+          },
+          "telefono" : {
+            "type" : "string"
+          },
+          "fobia" : {
+            "type" : "string"
+          },
+          "medicoAsociado" : {
+            "type" : "string"
           }
         }
       },
@@ -995,6 +1045,45 @@
           },
           "nextPageToken" : {
             "type" : "string"
+          }
+        }
+      },
+      "CollectionResponse_Integer" : {
+        "id" : "CollectionResponse_Integer",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Actividad" : {
+        "id" : "Actividad",
+        "type" : "object",
+        "properties" : {
+          "id_actividad" : {
+            "type" : "string"
+          },
+          "titulo" : {
+            "type" : "string"
+          },
+          "testAsociado" : {
+            "type" : "string"
+          },
+          "descripcion" : {
+            "type" : "string"
+          },
+          "preguntasActividad" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           }
         }
       },
@@ -1037,14 +1126,83 @@
           }
         }
       },
-      "CollectionResponse_Paciente" : {
-        "id" : "CollectionResponse_Paciente",
+      "RegistroTest" : {
+        "id" : "RegistroTest",
+        "type" : "object",
+        "properties" : {
+          "id_registro" : {
+            "type" : "string"
+          },
+          "id_paciente" : {
+            "type" : "string"
+          },
+          "id_test" : {
+            "type" : "string"
+          },
+          "fechaFinalizacion" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "CollectionResponse_Encuesta" : {
+        "id" : "CollectionResponse_Encuesta",
         "type" : "object",
         "properties" : {
           "items" : {
             "type" : "array",
             "items" : {
-              "$ref" : "Paciente"
+              "$ref" : "Encuesta"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Encuesta" : {
+        "id" : "Encuesta",
+        "type" : "object",
+        "properties" : {
+          "id_encuesta" : {
+            "type" : "string"
+          },
+          "general" : {
+            "type" : "integer"
+          },
+          "ansiedad" : {
+            "type" : "integer"
+          },
+          "confianza" : {
+            "type" : "integer"
+          },
+          "miedo" : {
+            "type" : "integer"
+          },
+          "pacienteEncuesta" : {
+            "type" : "string"
+          },
+          "sensacionFisica" : {
+            "type" : "integer"
+          },
+          "previsionMejora" : {
+            "type" : "integer"
+          },
+          "fecha" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "CollectionResponse_Float" : {
+        "id" : "CollectionResponse_Float",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number",
+              "format" : "float"
             }
           },
           "nextPageToken" : {
@@ -1067,57 +1225,82 @@
           }
         }
       },
-      "Encuesta" : {
-        "id" : "Encuesta",
+      "Pregunta" : {
+        "id" : "Pregunta",
         "type" : "object",
         "properties" : {
-          "id_encuesta" : {
+          "id_pregunta" : {
             "type" : "string"
           },
-          "fecha" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "ansiedad" : {
-            "type" : "integer"
-          },
-          "general" : {
-            "type" : "integer"
-          },
-          "confianza" : {
-            "type" : "integer"
-          },
-          "miedo" : {
-            "type" : "integer"
-          },
-          "pacienteEncuesta" : {
+          "texto_pregunta" : {
             "type" : "string"
           },
-          "previsionMejora" : {
-            "type" : "integer"
-          },
-          "sensacionFisica" : {
-            "type" : "integer"
+          "actividadAsociada" : {
+            "type" : "string"
           }
         }
       },
-      "CollectionResponse_Encuesta" : {
-        "id" : "CollectionResponse_Encuesta",
+      "CollectionResponse_Paciente" : {
+        "id" : "CollectionResponse_Paciente",
         "type" : "object",
         "properties" : {
           "items" : {
             "type" : "array",
             "items" : {
-              "$ref" : "Encuesta"
+              "$ref" : "Paciente"
             }
           },
           "nextPageToken" : {
             "type" : "string"
           }
         }
+      },
+      "Respuesta" : {
+        "id" : "Respuesta",
+        "type" : "object",
+        "properties" : {
+          "id_respuesta" : {
+            "type" : "string"
+          },
+          "id_pregunta" : {
+            "type" : "string"
+          },
+          "id_paciente" : {
+            "type" : "string"
+          },
+          "respuesta" : {
+            "type" : "string"
+          }
+        }
       }
     },
     "methods" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.crearTestMedico" : {
+        "request" : {
+          "$ref" : "Test"
+        },
+        "response" : {
+          "$ref" : "Test"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.registrarMedico" : {
+        "request" : {
+          "$ref" : "Medico"
+        },
+        "response" : {
+          "$ref" : "Medico"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.validarMedico" : {
+        "response" : {
+          "$ref" : "Medico"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.loginMedico" : {
+        "response" : {
+          "$ref" : "Medico"
+        }
+      },
       "com.lbarrous.anxis.entities.AnxisEndpoint.updatePaciente" : {
         "response" : {
           "$ref" : "Paciente"
@@ -1133,45 +1316,9 @@
           "$ref" : "Paciente"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.validarMedico" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsFinalizadosByIDPaciente" : {
         "response" : {
-          "$ref" : "Medico"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.registrarMedico" : {
-        "request" : {
-          "$ref" : "Medico"
-        },
-        "response" : {
-          "$ref" : "Medico"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.updateMedico" : {
-        "response" : {
-          "$ref" : "Medico"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.addActividadTest" : {
-        "request" : {
-          "$ref" : "Actividad"
-        },
-        "response" : {
-          "$ref" : "Actividad"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.loginMedico" : {
-        "response" : {
-          "$ref" : "Medico"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.borrarTestMedico" : {
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.crearTestMedico" : {
-        "request" : {
-          "$ref" : "Test"
-        },
-        "response" : {
-          "$ref" : "Test"
+          "$ref" : "CollectionResponse_Test"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsPorIniciarByIDPaciente" : {
@@ -1187,9 +1334,9 @@
           "$ref" : "Paciente"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsFinalizadosByIDPaciente" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getTestsRealizadosPacientesMedico" : {
         "response" : {
-          "$ref" : "CollectionResponse_Test"
+          "$ref" : "CollectionResponse_Integer"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.proporcionarTestCreadoAPacienteMedico" : {
@@ -1197,82 +1344,24 @@
           "$ref" : "Paciente"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.registrarPaciente" : {
-        "request" : {
-          "$ref" : "Paciente"
-        },
-        "response" : {
-          "$ref" : "Paciente"
-        }
+      "com.lbarrous.anxis.entities.AnxisEndpoint.borrarTestMedico" : {
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getMedicoAsociadoByIDPaciente" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.updateMedico" : {
         "response" : {
           "$ref" : "Medico"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.addActividadTest" : {
+        "request" : {
+          "$ref" : "Actividad"
+        },
+        "response" : {
+          "$ref" : "Actividad"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDPaciente" : {
         "response" : {
           "$ref" : "CollectionResponse_Mensaje"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesTotalesByIDPaciente" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Mensaje"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.quitarTestAPacienteMedico" : {
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getActividadConcretaTest" : {
-        "response" : {
-          "$ref" : "Actividad"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.removeActividadTest" : {
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.setMensajeLeidoByIDMedico" : {
-        "response" : {
-          "$ref" : "Mensaje"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDMedico" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Mensaje"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsCreadosByIDMedico" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Test"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.sendMensajePacienteByIDMedico" : {
-        "request" : {
-          "$ref" : "Mensaje"
-        },
-        "response" : {
-          "$ref" : "Mensaje"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesSinMedico" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Paciente"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaActividadesTest" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Actividad"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.finalizarTestPaciente" : {
-        "response" : {
-          "$ref" : "Test"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.realizarEncuestaPaciente" : {
-        "request" : {
-          "$ref" : "Encuesta"
-        },
-        "response" : {
-          "$ref" : "Encuesta"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.sendMensajeMedicoByIDPaciente" : {
@@ -1283,9 +1372,12 @@
           "$ref" : "Mensaje"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaEncuestasByIDPaciente" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.registrarPaciente" : {
+        "request" : {
+          "$ref" : "Paciente"
+        },
         "response" : {
-          "$ref" : "CollectionResponse_Encuesta"
+          "$ref" : "Paciente"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.setMensajeLeidoByIDPaciente" : {
@@ -1293,27 +1385,37 @@
           "$ref" : "Mensaje"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesAsociadosByIDMedico" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getMedicoAsociadoByIDPaciente" : {
         "response" : {
-          "$ref" : "CollectionResponse_Paciente"
+          "$ref" : "Medico"
         }
       },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.borrarMensajeMedico" : {
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacienteConcretoMedico" : {
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesTotalesByIDPaciente" : {
         "response" : {
-          "$ref" : "Paciente"
-        }
-      },
-      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsByIDPaciente" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Test"
+          "$ref" : "CollectionResponse_Mensaje"
         }
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.addPacienteMedico" : {
         "request" : {
           "$ref" : "Paciente"
         },
+        "response" : {
+          "$ref" : "Paciente"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.finalizarTestPaciente" : {
+        "response" : {
+          "$ref" : "RegistroTest"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.borrarMensajeMedico" : {
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaEncuestasByIDPaciente" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Encuesta"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacienteConcretoMedico" : {
         "response" : {
           "$ref" : "Paciente"
         }
@@ -1327,9 +1429,87 @@
       },
       "com.lbarrous.anxis.entities.AnxisEndpoint.borrarMensajePaciente" : {
       },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getMediaEncuestasPacientesMedico" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Float"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.quitarTestAPacienteMedico" : {
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getActividadConcretaTest" : {
+        "response" : {
+          "$ref" : "Actividad"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaActividadesTest" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Actividad"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.addPreguntaActividad" : {
+        "request" : {
+          "$ref" : "Pregunta"
+        },
+        "response" : {
+          "$ref" : "Pregunta"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsByIDPaciente" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Test"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.setMensajeLeidoByIDMedico" : {
+        "response" : {
+          "$ref" : "Mensaje"
+        }
+      },
       "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesTotalesByIDMedico" : {
         "response" : {
           "$ref" : "CollectionResponse_Mensaje"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesAsociadosByIDMedico" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Paciente"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getPacientesSinMedico" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Paciente"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.sendMensajePacienteByIDMedico" : {
+        "request" : {
+          "$ref" : "Mensaje"
+        },
+        "response" : {
+          "$ref" : "Mensaje"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getListaTestsCreadosByIDMedico" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Test"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.realizarEncuestaPaciente" : {
+        "request" : {
+          "$ref" : "Encuesta"
+        },
+        "response" : {
+          "$ref" : "Encuesta"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.getMensajesPorLeerByIDMedico" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Mensaje"
+        }
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.removeActividadTest" : {
+      },
+      "com.lbarrous.anxis.entities.AnxisEndpoint.responderPregunta" : {
+        "response" : {
+          "$ref" : "Respuesta"
         }
       }
     }

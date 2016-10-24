@@ -1,5 +1,7 @@
 package com.lbarrous.anxis.entities;
 
+import java.util.List;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -20,27 +22,24 @@ public class Actividad {
         @Persistent
         String Descripcion;
         @Persistent
-        String RecursosAuxiliares;
-        @Persistent
-        int tiempoSegundos;
-        @Persistent
         String TestAsociado;
+        @Persistent
+        List<String> PreguntasActividad;
         
         
 		
+		public List<String> getPreguntasActividad() {
+			return PreguntasActividad;
+		}
+		public void setPreguntasActividad(List<String> preguntasActividad) {
+			PreguntasActividad = preguntasActividad;
+		}
 		public String getTestAsociado() {
 			return TestAsociado;
 		}
 		public void setTestAsociado(String testAsociado) {
 			TestAsociado = testAsociado;
 		}
-		public int getTiempoSegundos() {
-			return tiempoSegundos;
-		}
-		public void setTiempoSegundos(int tiempoSegundos) {
-			this.tiempoSegundos = tiempoSegundos;
-		}
-
 		
 		public String getId_actividad() {
 			return id_actividad;
@@ -59,12 +58,6 @@ public class Actividad {
 		}
 		public void setDescripcion(String descripcion) {
 			Descripcion = descripcion;
-		}
-		public String getRecursosAuxiliares() {
-			return RecursosAuxiliares;
-		}
-		public void setRecursosAuxiliares(String recursosAuxiliares) {
-			RecursosAuxiliares = recursosAuxiliares;
 		}
         
 }
