@@ -21,6 +21,8 @@ public class Test {
         @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
         String id_test;
         @Persistent
+        String Titulo;
+        @Persistent
         String Descripcion;
         @Persistent
         List<String> ActividadesTest;
@@ -31,6 +33,13 @@ public class Test {
         @Persistent
         Date fechaFinalizacion;
         
+        
+		public String getTitulo() {
+			return Titulo;
+		}
+		public void setTitulo(String titulo) {
+			Titulo = titulo;
+		}
 		public String getMedicoCreador() {
 			return MedicoCreador;
 		}
