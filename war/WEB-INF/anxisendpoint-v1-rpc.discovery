@@ -1,0 +1,1369 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"zRMgE0l9nVDW4S28VYYcYQF9UW4/hjGZlqMJOCRDQvQtFHtm2DqULJ8\"",
+ "discoveryVersion": "v1",
+ "id": "anxisendpoint:v1",
+ "name": "anxisendpoint",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "example.com",
+ "ownerName": "example.com",
+ "packagePath": "com.example.entities",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://anxis-144019.appspot.com/_ah/api/",
+ "rpcUrl": "https://anxis-144019.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    },
+    "https://www.googleapis.com/auth/userinfo.profile": {
+     "description": "View your basic profile info"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "Actividad": {
+   "id": "Actividad",
+   "type": "object",
+   "properties": {
+    "descripcion": {
+     "type": "string"
+    },
+    "id_actividad": {
+     "type": "string"
+    },
+    "preguntasActividad": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "testAsociado": {
+     "type": "string"
+    },
+    "titulo": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Actividad": {
+   "id": "CollectionResponse_Actividad",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Actividad"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Encuesta": {
+   "id": "CollectionResponse_Encuesta",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Encuesta"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Float": {
+   "id": "CollectionResponse_Float",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "format": "float"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Integer": {
+   "id": "CollectionResponse_Integer",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "format": "int32"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Mensaje": {
+   "id": "CollectionResponse_Mensaje",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Mensaje"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Paciente": {
+   "id": "CollectionResponse_Paciente",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Paciente"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Pregunta": {
+   "id": "CollectionResponse_Pregunta",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Pregunta"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Respuesta": {
+   "id": "CollectionResponse_Respuesta",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Respuesta"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_Test": {
+   "id": "CollectionResponse_Test",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Test"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CollectionResponse_UltimoMovimiento": {
+   "id": "CollectionResponse_UltimoMovimiento",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "UltimoMovimiento"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Encuesta": {
+   "id": "Encuesta",
+   "type": "object",
+   "properties": {
+    "ansiedad": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "confianza": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "fecha": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "general": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "id_encuesta": {
+     "type": "string"
+    },
+    "miedo": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "pacienteEncuesta": {
+     "type": "string"
+    },
+    "previsionMejora": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "sensacionFisica": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "Medico": {
+   "id": "Medico",
+   "type": "object",
+   "properties": {
+    "apellidos": {
+     "type": "string"
+    },
+    "codigoPostal": {
+     "type": "string"
+    },
+    "direccion": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "id_google": {
+     "type": "string"
+    },
+    "id_medico": {
+     "type": "string"
+    },
+    "localidad": {
+     "type": "string"
+    },
+    "mensajes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "nick": {
+     "type": "string"
+    },
+    "nombre": {
+     "type": "string"
+    },
+    "pacientes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "password": {
+     "type": "string"
+    },
+    "provincia": {
+     "type": "string"
+    },
+    "telefono": {
+     "type": "string"
+    },
+    "testMedico": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "validado": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "Mensaje": {
+   "id": "Mensaje",
+   "type": "object",
+   "properties": {
+    "idMedicoReceptorMensaje": {
+     "type": "string"
+    },
+    "idPacienteReceptorMensaje": {
+     "type": "string"
+    },
+    "id_mensaje": {
+     "type": "string"
+    },
+    "mensaje": {
+     "type": "string"
+    },
+    "titulo": {
+     "type": "string"
+    },
+    "visto": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "Paciente": {
+   "id": "Paciente",
+   "type": "object",
+   "properties": {
+    "apellidos": {
+     "type": "string"
+    },
+    "codigoPostal": {
+     "type": "string"
+    },
+    "direccion": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "encuestas": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "fobia": {
+     "type": "string"
+    },
+    "id_google": {
+     "type": "string"
+    },
+    "id_paciente": {
+     "type": "string"
+    },
+    "localidad": {
+     "type": "string"
+    },
+    "medicoAsociado": {
+     "type": "string"
+    },
+    "mensajes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "nick": {
+     "type": "string"
+    },
+    "nombre": {
+     "type": "string"
+    },
+    "password": {
+     "type": "string"
+    },
+    "provincia": {
+     "type": "string"
+    },
+    "telefono": {
+     "type": "string"
+    },
+    "testAsociados": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "validado": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "Pregunta": {
+   "id": "Pregunta",
+   "type": "object",
+   "properties": {
+    "actividadAsociada": {
+     "type": "string"
+    },
+    "id_pregunta": {
+     "type": "string"
+    },
+    "texto_pregunta": {
+     "type": "string"
+    }
+   }
+  },
+  "RegistroTest": {
+   "id": "RegistroTest",
+   "type": "object",
+   "properties": {
+    "fechaFinalizacion": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "id_paciente": {
+     "type": "string"
+    },
+    "id_registro": {
+     "type": "string"
+    },
+    "id_test": {
+     "type": "string"
+    }
+   }
+  },
+  "Respuesta": {
+   "id": "Respuesta",
+   "type": "object",
+   "properties": {
+    "id_paciente": {
+     "type": "string"
+    },
+    "id_pregunta": {
+     "type": "string"
+    },
+    "id_respuesta": {
+     "type": "string"
+    },
+    "respuesta": {
+     "type": "string"
+    }
+   }
+  },
+  "Test": {
+   "id": "Test",
+   "type": "object",
+   "properties": {
+    "actividadesTest": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "descripcion": {
+     "type": "string"
+    },
+    "fechaFinalizacion": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "id_test": {
+     "type": "string"
+    },
+    "medicoCreador": {
+     "type": "string"
+    },
+    "pacientesAsociados": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "titulo": {
+     "type": "string"
+    }
+   }
+  },
+  "UltimoMovimiento": {
+   "id": "UltimoMovimiento",
+   "type": "object",
+   "properties": {
+    "nombre_Paciente": {
+     "type": "string"
+    },
+    "nombre_test": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "anxisendpoint.addActividadTest": {
+   "id": "anxisendpoint.addActividadTest",
+   "parameters": {
+    "id_test": {
+     "type": "string",
+     "required": true
+    },
+    "resource": {
+     "$ref": "Actividad"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "id_test"
+   ],
+   "returns": {
+    "$ref": "Actividad"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.addPacienteByIDMedico": {
+   "id": "anxisendpoint.addPacienteByIDMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_paciente"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.addPacienteMedico": {
+   "id": "anxisendpoint.addPacienteMedico",
+   "parameters": {
+    "resource": {
+     "$ref": "Paciente"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.addPreguntaActividad": {
+   "id": "anxisendpoint.addPreguntaActividad",
+   "parameters": {
+    "id_actividad": {
+     "type": "string",
+     "required": true
+    },
+    "resource": {
+     "$ref": "Pregunta"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "id_actividad"
+   ],
+   "returns": {
+    "$ref": "Pregunta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.borrarMensajeMedico": {
+   "id": "anxisendpoint.borrarMensajeMedico",
+   "parameters": {
+    "id_mensaje": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_mensaje"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.borrarMensajePaciente": {
+   "id": "anxisendpoint.borrarMensajePaciente",
+   "parameters": {
+    "id_mensaje": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_mensaje"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.borrarPacienteMedico": {
+   "id": "anxisendpoint.borrarPacienteMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_paciente"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.borrarTestMedico": {
+   "id": "anxisendpoint.borrarTestMedico",
+   "parameters": {
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_test"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.crearTestMedico": {
+   "id": "anxisendpoint.crearTestMedico",
+   "parameters": {
+    "resource": {
+     "$ref": "Test"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Test"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getActividadConcretaTest": {
+   "id": "anxisendpoint.getActividadConcretaTest",
+   "allowGet": true,
+   "parameters": {
+    "id_actividad": {
+     "type": "string",
+     "required": true
+    },
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_test",
+    "id_actividad"
+   ],
+   "returns": {
+    "$ref": "Actividad"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaActividadesTest": {
+   "id": "anxisendpoint.getListaActividadesTest",
+   "allowGet": true,
+   "parameters": {
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_test"
+   ],
+   "returns": {
+    "$ref": "CollectionResponse_Actividad"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaEncuestasPaciente": {
+   "id": "anxisendpoint.getListaEncuestasPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Encuesta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaPreguntasActividad": {
+   "id": "anxisendpoint.getListaPreguntasActividad",
+   "allowGet": true,
+   "parameters": {
+    "id_actividad": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_actividad"
+   ],
+   "returns": {
+    "$ref": "CollectionResponse_Pregunta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaTestFinalizadosPaciente": {
+   "id": "anxisendpoint.getListaTestFinalizadosPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Test"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaTestPorIniciarPaciente": {
+   "id": "anxisendpoint.getListaTestPorIniciarPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Test"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaTestsCreadosMedico": {
+   "id": "anxisendpoint.getListaTestsCreadosMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Test"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getListaTestsPaciente": {
+   "id": "anxisendpoint.getListaTestsPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Test"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMediaEncuestasPaciente": {
+   "id": "anxisendpoint.getMediaEncuestasPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Float"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMediaEncuestasPacientesMedico": {
+   "id": "anxisendpoint.getMediaEncuestasPacientesMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Float"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMedicoAsociadoPaciente": {
+   "id": "anxisendpoint.getMedicoAsociadoPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "Medico"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMensajesPorLeerMedico": {
+   "id": "anxisendpoint.getMensajesPorLeerMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMensajesPorLeerPaciente": {
+   "id": "anxisendpoint.getMensajesPorLeerPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMensajesTotalesMedico": {
+   "id": "anxisendpoint.getMensajesTotalesMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getMensajesTotalesPaciente": {
+   "id": "anxisendpoint.getMensajesTotalesPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getPacienteConcretoMedico": {
+   "id": "anxisendpoint.getPacienteConcretoMedico",
+   "allowGet": true,
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_paciente"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getPacientesAsociadosMedico": {
+   "id": "anxisendpoint.getPacientesAsociadosMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getPacientesSinMedico": {
+   "id": "anxisendpoint.getPacientesSinMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getRespuestasPregunta": {
+   "id": "anxisendpoint.getRespuestasPregunta",
+   "allowGet": true,
+   "parameters": {
+    "id_pregunta": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_pregunta"
+   ],
+   "returns": {
+    "$ref": "CollectionResponse_Respuesta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getTestsRealizadosPacientesMedico": {
+   "id": "anxisendpoint.getTestsRealizadosPacientesMedico",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_Integer"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.getUltimosMovimientosTestPaciente": {
+   "id": "anxisendpoint.getUltimosMovimientosTestPaciente",
+   "allowGet": true,
+   "returns": {
+    "$ref": "CollectionResponse_UltimoMovimiento"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.loginMedico": {
+   "id": "anxisendpoint.loginMedico",
+   "returns": {
+    "$ref": "Medico"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.loginPaciente": {
+   "id": "anxisendpoint.loginPaciente",
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.proporcionarTestAPacienteMedico": {
+   "id": "anxisendpoint.proporcionarTestAPacienteMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    },
+    "resource": {
+     "$ref": "Test"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "id_paciente"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.proporcionarTestCreadoAPacienteMedico": {
+   "id": "anxisendpoint.proporcionarTestCreadoAPacienteMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    },
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_paciente",
+    "id_test"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.quitarTestAPacienteMedico": {
+   "id": "anxisendpoint.quitarTestAPacienteMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    },
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_paciente",
+    "id_test"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.realizarEncuestaPaciente": {
+   "id": "anxisendpoint.realizarEncuestaPaciente",
+   "parameters": {
+    "resource": {
+     "$ref": "Encuesta"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Encuesta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.registrarMedico": {
+   "id": "anxisendpoint.registrarMedico",
+   "parameters": {
+    "resource": {
+     "$ref": "Medico"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Medico"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.registrarPaciente": {
+   "id": "anxisendpoint.registrarPaciente",
+   "parameters": {
+    "resource": {
+     "$ref": "Paciente"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.removeActividadTest": {
+   "id": "anxisendpoint.removeActividadTest",
+   "parameters": {
+    "id_actividad": {
+     "type": "string",
+     "required": true
+    },
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_test",
+    "id_actividad"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "anxisendpoint.responderPregunta": {
+   "id": "anxisendpoint.responderPregunta",
+   "parameters": {
+    "id_pregunta": {
+     "type": "string",
+     "required": true
+    },
+    "respuesta": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_pregunta",
+    "respuesta"
+   ],
+   "returns": {
+    "$ref": "Respuesta"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.sendMensajeMedicoPaciente": {
+   "id": "anxisendpoint.sendMensajeMedicoPaciente",
+   "parameters": {
+    "resource": {
+     "$ref": "Mensaje"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.sendMensajePacienteMedico": {
+   "id": "anxisendpoint.sendMensajePacienteMedico",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    },
+    "resource": {
+     "$ref": "Mensaje"
+    }
+   },
+   "parameterOrder": [
+    "resource",
+    "id_paciente"
+   ],
+   "returns": {
+    "$ref": "Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.setMensajeLeidoMedico": {
+   "id": "anxisendpoint.setMensajeLeidoMedico",
+   "parameters": {
+    "id_mensaje": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_mensaje"
+   ],
+   "returns": {
+    "$ref": "Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.setMensajeLeidoPaciente": {
+   "id": "anxisendpoint.setMensajeLeidoPaciente",
+   "parameters": {
+    "id_mensaje": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_mensaje"
+   ],
+   "returns": {
+    "$ref": "Mensaje"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.setTestFinalizadoPaciente": {
+   "id": "anxisendpoint.setTestFinalizadoPaciente",
+   "parameters": {
+    "id_test": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id_test"
+   ],
+   "returns": {
+    "$ref": "RegistroTest"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.updateMedico": {
+   "id": "anxisendpoint.updateMedico",
+   "parameters": {
+    "resource": {
+     "$ref": "Medico"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Medico"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.updatePaciente": {
+   "id": "anxisendpoint.updatePaciente",
+   "parameters": {
+    "resource": {
+     "$ref": "Paciente"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  },
+  "anxisendpoint.validacionMedico": {
+   "id": "anxisendpoint.validacionMedico",
+   "parameters": {
+    "id_medico": {
+     "type": "string",
+     "required": true
+    },
+    "valido": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "id_medico",
+    "valido"
+   ],
+   "returns": {
+    "$ref": "Medico"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "anxisendpoint.validacionPaciente": {
+   "id": "anxisendpoint.validacionPaciente",
+   "parameters": {
+    "id_paciente": {
+     "type": "string",
+     "required": true
+    },
+    "valido": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "id_paciente",
+    "valido"
+   ],
+   "returns": {
+    "$ref": "Paciente"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile"
+   ]
+  }
+ }
+}
