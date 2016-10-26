@@ -1929,6 +1929,20 @@ public class AnxisEndpoint {
 		return CollectionResponse.<Respuesta> builder().setItems(respuestas_pregunta).build();
 	}
 	
+	@ApiMethod(name = "getTestConcreto", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
+			clientIds = {Constants.WEB_CLIENT_ID, 
+				     Constants.ANDROID_CLIENT_ID, 
+				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
+				     audiences = {Constants.ANDROID_AUDIENCE})
+	public Test getTestConcreto(@Named("id_test") String id_test, User user) throws UnauthorizedException {
+
+		Test testconcreto = null;
+		
+		testconcreto = getTestConcretoByIDTestMedico(loginMedico(user).getId_medico(), id_test);
+
+		return testconcreto;
+	}
+	
 	
 	@ApiMethod(name = "getActividadConcretaTest", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},
 			clientIds = {Constants.WEB_CLIENT_ID, 

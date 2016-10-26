@@ -121,8 +121,8 @@
                             Mis Tests
                         </div>
                     <div class="list-group" id="lista_tests">
-    
-  </div></div>
+  					</div>
+  					</div>
                 </div>
                 <div class="col-md-9 col-md-offset-1">
                     <div class="panel panel-default">
@@ -239,11 +239,16 @@ var barras_tests;
         
 		function editarTest(id_test) {
 			
-			var listvalues = { "id_test": id_test}
-			*// OR IF INTPUT IS INSIDE FORM BETTER USER JQUERY SERIALIZER var listvalues = $("#form").serialize();*
-			localStorage.setItem('datos_test', JSON.stringify(listvalues)); 
+			//var listvalues = { "id_test": id_test};
+			// OR IF INTPUT IS INSIDE FORM BETTER USER JQUERY SERIALIZER var listvalues = $("#form").serialize();*
+			//localStorage.setItem('datos_test', listvalues); 
 			
-			window.location.replace("./editar_test_medico.html");
+			//window.location.href="page2.html?text1="+$('#text1').val()...etc
+			alert(id_test);
+			sessionStorage.setItem("id_test", id_test);
+			//sessionStorage.setItem("Apellido", "pe");		
+					
+			window.location.href = "./editar_test_medico.html";
 		        	
         }
         
@@ -258,15 +263,41 @@ var barras_tests;
             	requestData.descripcion = descripcion_test;
             	
             	gapi.client.anxisendpoint.crearTestMedico(requestData).execute(function(resp) {
+            		
+            		var nuevo_test = '';
+            		
+            		nuevo_test += '<li href="#" class="list-group-item">';
+            		nuevo_test += '<div class="row"><div class="col-md-9">';
+           			nuevo_test += '<h4 class="list-group-item-heading">';
+           			nuevo_test += resp.titulo;
+       				nuevo_test += '</h4>';
+   					nuevo_test += '<p>'+resp.descripcion+'</p>';
+					nuevo_test += '</div><div class="col-md-3">';
+					nuevo_test += '<center>';
+					nuevo_test += '<button id="agxhbnhpcy0xNDQwMTlyEQsSBFRlc3QYgICAgICA7AkM" onclick="editarTest(\'' + resp.id_mensaje + '\');" class="btn btn-info editar_test">Editar Test</button>';
+    									nuevo_test += '</center>';
+       									nuevo_test += '</div>';
+       										nuevo_test += '</div>';
+       											nuevo_test += '</li>';
 
           	    	if (!resp.code) {
-          	    		
-          	    		setTimeout(function() {
           	    			BootstrapDialog.show({
               	    			title: 'Mensaje enviado',
-              	    			message: 'Tu test se ha creado correctamente!'
+              	    			message: 'Tu test se ha creado correctamente!',
+              	    			onshown: function(dialogRef){
+                                    setTimeout(function(){
+                                            dialogRef.close();
+                                        });
+                                    
+                                },
+                                onhide: function(dialogRef){
+                                	
+                                	$('#lista_tests').append($(nuevo_test).hide().fadeIn(2000));
+                                
+                            },
+                                onclose
+              	    			
               	          });
-          	    		}, 3000);
             		}
               	})
         		
