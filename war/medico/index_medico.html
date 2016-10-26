@@ -9,15 +9,14 @@
     <!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <![endif]-->
-    <title>Free Responsive Admin Theme - ZONTAL</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
+    <title>Anxis Web App</title>
+    <!-- CSS  -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
     <link href="../assets/css/anxis.css" rel="stylesheet" />
-    <!-- FONT AWESOME ICONS  -->
     <link href="../assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
     <link href="../assets/css/style.css" rel="stylesheet" />
     <link href="../assets/css/morris.css" rel="stylesheet" />
+    <link href="../assets/css/bootstrap-dialog.css" rel="stylesheet" />
      <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -148,7 +147,7 @@
             </div>
                 <div class="row">
                 <div class="col-md-6">
-                <center><div class="caption">Encuestas realizadas por los pacientes:</div></center>
+                <center><div class="caption">Tests realizados por los pacientes:</div></center>
                  <div class="contenedor_grafico" id="donut-example" style="height: 300px;"></div>
             </div>
                     <div class="col-md-6">
@@ -175,10 +174,15 @@
     <!-- CORE JQUERY SCRIPTS -->
     <script src="../assets/js/jquery-1.11.1.js"></script>
     
-    <!-- BOOTSTRAP SCRIPTS  -->
+    <!-- SCRIPTS  -->
+    <script src="../assets/js/jquery-1.11.1.js"></script>
     <script src="../assets/js/bootstrap.js"></script>
     <script src="../assets/js/raphael.js"></script>
     <script src="../assets/js/morris.min.js"></script>
+    <script src="../assets/js/bootstrap-dialog.js"></script>
+    
+    
+    
 <script>
 var scopes = 'https://www.googleapis.com/auth/userinfo.email';
 var client_id = '1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com';
@@ -190,7 +194,7 @@ var barras_tests;
         function handleAuth() {
     	  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
     	    if (resp.code) {
-    	    	window.location.replace("http://stackoverflow.com");
+    	    	window.location.replace("../error.html");
     	    }
     	    else {
       	      
@@ -217,10 +221,12 @@ var barras_tests;
         													result += "<br>";
         														result += "<hr>";
                                         
-        															result += "<textarea class='form-control' placeholder='Descripción' rows='3'></textarea>";
+        															result += "<textarea name='"+resp.items[i].id_mensaje+"' class='form-control' placeholder='Descripción' rows='3'></textarea>";
         																result += "<br>";
                                             
-        																	result += "<button id="+resp.items[i].id_mensaje+" onclick='enviarMensaje("+resp.items[i].id_remitente+", "+resp.items[i].Titulo+");' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>";
+        																	//result += "<button id="+resp.items[i].id_mensaje+" onclick='enviarMensaje("+resp.items[i].id_remitente+", "+resp.items[i].Titulo+");' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>";
+        																	  result += '<button id="+resp.items[i].id_mensaje+" onclick="enviarMensaje(\'' + resp.items[i].id_mensaje + '\', \'' + resp.items[i].id_remitente + '\', \'' + resp.items[i].Titulo + '\');" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">';
+
         																		result += "Responder <span class='glyphicon glyphicon-send'></span>";
         																			result += " </button>";
         																				result += "</div>";
@@ -303,11 +309,11 @@ var barras_tests;
 					Morris.Donut({
 					  element: 'donut-example',
 					  data: [
-					    {label: "Ninguna encuesta", value: result[0]},
-					    {label: "Entre 1 y 2 encuestas", value: result[1]},
-					    {label: "Entre 3 y 5 encuestas", value: result[2]},
-					    {label: "Entre 6 y 9 encuestas", value: result[3]},
-					    {label: "Diez o mas encuestas", value: result[4]}
+					    {label: "Ningun test", value: result[0]},
+					    {label: "Entre 1 y 2 tests", value: result[1]},
+					    {label: "Entre 3 y 5 tests", value: result[2]},
+					    {label: "Entre 6 y 9 tests", value: result[3]},
+					    {label: "Diez o mas tests", value: result[4]}
 					  ],
 					  formatter: function (value, data) { return (value/total *100) + '%'; }
 					});
@@ -340,22 +346,30 @@ var barras_tests;
         	gapi.client.load('oauth2','v2',callback);
         }
         
-        function enviarMensaje(id_paciente, titulo) {
+        function enviarMensaje(id_mensaje, id_remitente, titulo) {
         	
+        	var mensaje = $('textarea[name='+id_mensaje+']').val();
         	var requestData = {};
         	requestData.titulo = "Re: "+titulo;
-        	requestData.mensaje = $('#id_textarea').val();
+        	requestData.mensaje = mensaje;
         	
-        	alert($('#id_textarea').val());
-        	/*gapi.client.anxisendpoint.sendMensajePacienteMedico(id_paciente, requestData).execute(function(resp) {
+        	gapi.client.anxisendpoint.sendMensajePacienteMedico({id_paciente: id_remitente}, requestData).execute(function(resp) {
 
       	    	if (!resp.code) {
-      	    		alert(enviado);
+      	    		
+      	    		setTimeout(function() {
+      	    			BootstrapDialog.show({
+          	    			title: 'Mensaje enviado',
+          	    			message: 'Tu mensaje se ha enviado correctamente!'
+          	          });
+      	    		}, 3000);
         		}
-          	});*/
+          	});
         	
         }
+        
 </script>
+
 <script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

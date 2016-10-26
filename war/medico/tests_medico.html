@@ -9,12 +9,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <![endif]-->
     <title>Free Responsive Admin Theme - ZONTAL</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
+    <!-- CSS  -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME ICONS  -->
+    <link href="../assets/css/anxis.css" rel="stylesheet" />
     <link href="../assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
     <link href="../assets/css/style.css" rel="stylesheet" />
+    <link href="../assets/css/morris.css" rel="stylesheet" />
+    <link href="../assets/css/bootstrap-dialog.css" rel="stylesheet" />
      <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -92,7 +93,7 @@
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                                                         <li><a href="index_medico.html">Inicio</a></li>
                             <li><a href="pacientes_medico.html">Pacientes</a></li>
-                            <li><a href="tests_medico.html">Tests</a></li>
+                            <li><a class="menu-top-active" href="tests_medico.html">Tests</a></li>
                             <li><a href="mensajes_medico.html">Mensajes</a></li>
 
                         </ul>
@@ -107,126 +108,38 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h4 class="page-head-line">Edicion Test</h4>
+                    <h4 class="page-head-line">Tests</h4>
 
                 </div>
 
             </div>
             
             <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                        <label for="nombre_test">Nombre del test:</label>
-                    <input class="form-control" id="nombre_test" type="password" placeholder="Nombre del test"></div>
-                        <div class="col-md-2 col-md-offset-4">
-                        <button style="margin-top: 35px;" class="btn btn-info">Guardar Test</button></div>
-                    </div>
-                    
-                    
-                    <br>
+                <div class="col-md-9 col-md-offset-1">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Actividades del Test
+                            Mis Tests
                         </div>
-                    <div class="list-group">
-    <li href="#" class="list-group-item">
-        <div class="row">
-            <div class="col-md-9">
-                <div class="panel panel-default">
-                <div class="panel-heading">
-                <h4 class="panel-title">
-                <a class="collapsed" href="#collapseOne" data-toggle="collapse" data-parent="#accordion">
-                Actividad 1
-                </a>
-                </h4>
-                </div>
-                <div class="panel-collapse collapse" id="collapseOne" style="height: 0px;">
-                <div class="panel-heading">
-                <h3 class="panel-title">
-                <strong>Título</strong>: <br><br>
-                <strong>Descripción</strong>:
-                </h3>
-                </div>
-                <hr>
-                <div class="panel-heading">
-                <h4 class="panel-title">
-                <strong>Preguntas</strong>:
-                </h4>
-                </div>
-                <div class="panel-body" style="padding-top: 0; padding-bottom: 0;">   
-                	<div class="panel panel-default">
-                		<div class="panel-heading">
-                			<div class="row">
-                				<div class="col-md-10"><p>¿COMO SE PEUDE SER TAN NAPA?</p></div>
-                				<div class="col-md-2"><button class="btn btn-default"><span style="margin-top: 5px; font-size: 1.5em; color:red;" class="glyphicon glyphicon-trash"></span></button></div>
-                			</div>
-                		</div>
-                	</div>
-                </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-info">Eliminar actividad</button>
-            </div>
-        </div>
-       </li> 
-      
-      <p class="list-group-item-text"></p>
+                    <div class="list-group" id="lista_tests">
     
   </div></div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-9 col-md-offset-1">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Añadir actividad
+                            Añadir Test
                         </div>
                         <div class="panel-body">
                             <div class="row">
                             <div class="col-md-6">
                                 <label for="exampleInputPassword1">Título:</label>
-                    <input class="form-control" id="exampleInputPassword1" type="text" placeholder="Nombre de la actividad"></div>
+                    <input class="form-control" id="nombre_test" type="text" placeholder="Nombre del test"></div>
                                 
                             <div class="col-md-12">
                             <label for="exampleInputPassword1">Descripción:</label>
-                                    <textarea class="form-control" placeholder="Inserte su descripción" rows="3"></textarea>
+                                    <textarea id="descripcion_test" class="form-control" placeholder="Inserte su descripción" rows="3"></textarea>
                                 <br>
-                                <button class="btn btn-info">Añadir</button>
-                                </div>
-                                
-                                </div>
-
-                        </div>
-
-                        
-                        
-                        </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Añadir pregunta
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                            <div class="col-md-4">
-                            <label for="sel1">Seleccionar Actividad:</label>
-                          <select class="form-control" id="sel1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                          </select>
-                                </div>
-                            
-                                
-                            <div class="col-md-12">
-                            <label for="exampleInputPassword1">Texto de la pregunta:</label>
-                                    <textarea class="form-control" placeholder="Inserte su pregunta" rows="3"></textarea>
-                                <br>
-                                <button class="btn btn-info">Añadir</button>
+                                <button id="crear_test" class="btn btn-info">Crear test</button><br><br>
                                 </div>
                                 
                                 </div>
@@ -253,11 +166,114 @@
             </div>
         </div>
     </footer>
-    <!-- FOOTER SECTION END-->
-    <!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
-    <!-- CORE JQUERY SCRIPTS -->
+    <!-- SCRIPTS  -->
     <script src="../assets/js/jquery-1.11.1.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
     <script src="../assets/js/bootstrap.js"></script>
+    <script src="../assets/js/raphael.js"></script>
+    <script src="../assets/js/morris.min.js"></script>
+    <script src="../assets/js/bootstrap-dialog.js"></script>
+
+    
+    <script>
+var scopes = 'https://www.googleapis.com/auth/userinfo.email';
+var client_id = '1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com';
+var mensajes;
+var movimientos;
+var donut_encuestas;
+var barras_tests;
+    
+        function handleAuth() {
+    	  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
+    	    if (resp.code) {
+    	    	window.location.replace("../error.html");
+    	    }
+    	    else {
+    	    	
+    	    	gapi.client.anxisendpoint.getListaTestsCreadosMedico().execute(function(resp) {
+
+          	    	if (!resp.code) {
+            			resp.items = resp.items || [];
+            			var result = "";
+            			for (var i=0;i<resp.items.length;i++) {
+
+            				result += '<li href="#" class="list-group-item">';
+                			result += '<div class="row">';
+                			result += '<div class="col-md-9">';
+                			result += '<h4 class="list-group-item-heading">'+resp.items[i].titulo+'</h4>';
+                			result += '<p>'+resp.items[i].descripcion+'</p>';
+                			result += '</div>';
+                			result += '<div class="col-md-3">';
+                			result += '<center><button id="'+resp.items[i].id_test+'" onclick="editarTest(\'' + resp.items[i].id_test + '\');" class="btn btn-info editar_test">Editar Test</button></center>';
+                			result += '</div>';
+                			result += '</div>';
+                			result += '</li>';
+            			}
+            			$("#lista_tests").append(result);
+            		}
+          	    	  
+              		console.log(resp);
+              	});
+      	      
+    	    }
+    	  });
+    	}
+        
+        function signin(mode, callback) {
+        	  gapi.auth.authorize({client_id: client_id,scope: scopes, immediate: mode},callback);
+        }
+    
+        function init() {
+        	var apisToLoad;
+        	var callback = function() {
+        	   if (--apisToLoad == 0) {
+        	     signin(true, handleAuth);
+        	   }
+        	}
+        	  
+        	apisToLoad = 2;
+        	//Parameters are APIName,APIVersion,CallBack function,API Root 
+        	gapi.client.load('anxisendpoint', 'v1', callback, 'http://localhost:8888/_ah/api');
+        	//gapi.client.load('anxisendpoint', 'v1', callback, 'https://mybackendapi.appspot.com/_ah/api');
+        	gapi.client.load('oauth2','v2',callback);
+        }
+        
+		function editarTest(id_test) {
+			
+			var listvalues = { "id_test": id_test}
+			*// OR IF INTPUT IS INSIDE FORM BETTER USER JQUERY SERIALIZER var listvalues = $("#form").serialize();*
+			localStorage.setItem('datos_test', JSON.stringify(listvalues)); 
+			
+			window.location.replace("./editar_test_medico.html");
+		        	
+        }
+        
+		$(document).ready(function(){
+        	$('#crear_test').on('click', function() {
+        		
+        		var titulo_test = $('#nombre_test').val();
+        		var descripcion_test = $('#descripcion_test').val();
+        		
+        		var requestData = {};
+            	requestData.titulo = titulo_test;
+            	requestData.descripcion = descripcion_test;
+            	
+            	gapi.client.anxisendpoint.crearTestMedico(requestData).execute(function(resp) {
+
+          	    	if (!resp.code) {
+          	    		
+          	    		setTimeout(function() {
+          	    			BootstrapDialog.show({
+              	    			title: 'Mensaje enviado',
+              	    			message: 'Tu test se ha creado correctamente!'
+              	          });
+          	    		}, 3000);
+            		}
+              	})
+        		
+        	});
+        });
+        
+</script>
+<script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

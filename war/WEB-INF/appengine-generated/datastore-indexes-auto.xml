@@ -1,8 +1,8 @@
-<!-- Indices written at Wed, 26 Oct 2016 01:48:17 CEST -->
+<!-- Indices written at Wed, 26 Oct 2016 16:49:23 CEST -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 32 times in query history -->
     <datastore-index kind="RegistroTest" ancestor="false" source="auto">
         <property name="id_paciente" direction="asc"/>
         <property name="__key__" direction="desc"/>
