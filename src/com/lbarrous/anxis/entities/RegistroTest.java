@@ -19,11 +19,27 @@ public class RegistroTest {
 	@Persistent
     String id_paciente;
 	@Persistent
+    String nombre_paciente;
+	@Persistent
     String id_test;
+	@Persistent
+    String nombre_test;
     @Persistent
     Date fechaFinalizacion;
     
     
+	public String getNombre_paciente() {
+		return nombre_paciente;
+	}
+	public void setNombre_paciente(String nombre_paciente) {
+		this.nombre_paciente = nombre_paciente;
+	}
+	public String getNombre_test() {
+		return nombre_test;
+	}
+	public void setNombre_test(String nombre_test) {
+		this.nombre_test = nombre_test;
+	}
 	public String getId_registro() {
 		return id_registro;
 	}

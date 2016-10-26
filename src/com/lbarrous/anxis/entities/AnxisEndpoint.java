@@ -466,9 +466,12 @@ public class AnxisEndpoint {
 
 		PersistenceManager mgr = null;
 		Medico medicoenvio = null;
+		Paciente paciente = loginPaciente(user);
 
 		medicoenvio = getMedicoByID(loginPaciente(user).getMedicoAsociado());
 		mensaje.setIdMedicoReceptorMensaje(medicoenvio.getId_medico());
+		mensaje.setNombre_remitente(paciente.getNombre()+" "+paciente.getApellidos());
+		mensaje.setId_remitente(paciente.getId_paciente());
 		
 		try {
 			mgr = getPersistenceManager();
@@ -633,7 +636,9 @@ public class AnxisEndpoint {
 			for (Test obj : testasociados) {
 				if(obj.getId_test().equals(id_test)) {
 					nuevo_test.setId_paciente(loginPaciente(user).getId_paciente());
+					nuevo_test.setNombre_paciente(loginPaciente(user).getNombre() + " " + loginPaciente(user).getApellidos());
 					nuevo_test.setId_test(id_test);
+					nuevo_test.setId_test(getTestByID(id_test).getTitulo());
 					nuevo_test.setFechaFinalizacion(new Date());
 					mgr.makePersistent(nuevo_test);
 				}
@@ -1117,27 +1122,38 @@ public class AnxisEndpoint {
 					Key k = KeyFactory.stringToKey(obj);
 					Paciente m = mgr.getObjectById(Paciente.class, k);
 					
-					for(String obj2 : m.getEncuestas()) {
-						Key k2 = KeyFactory.stringToKey(obj2);
-						Encuesta e = mgr.getObjectById(Encuesta.class, k2);
-						Miedo += e.getMiedo();
-				        Ansiedad += e.getAnsiedad();
-				        SensacionFisica += e.getSensacionFisica();
-				        Confianza += e.getConfianza();
-				        PrevisionMejora += e.getPrevisionMejora();
-				        General += e.getGeneral();
-				        num_encuestas++;
+					if(!m.getEncuestas().isEmpty()) {
+						for(String obj2 : m.getEncuestas()) {
+							Key k2 = KeyFactory.stringToKey(obj2);
+							Encuesta e = mgr.getObjectById(Encuesta.class, k2);
+							Miedo += e.getMiedo();
+					        Ansiedad += e.getAnsiedad();
+					        SensacionFisica += e.getSensacionFisica();
+					        Confianza += e.getConfianza();
+					        PrevisionMejora += e.getPrevisionMejora();
+					        General += e.getGeneral();
+					        num_encuestas++;
+						}
+						medias.add(Miedo/num_encuestas);
+						medias.add(Ansiedad/num_encuestas);
+						medias.add(SensacionFisica/num_encuestas);
+						medias.add(Confianza/num_encuestas);
+						medias.add(PrevisionMejora/num_encuestas);
+						medias.add(General/num_encuestas);
+					}
+					else {
+						medias.add((float) 0);
+						medias.add((float) 0);
+						medias.add((float) 0);
+						medias.add((float) 0);
+						medias.add((float) 0);
+						medias.add((float) 0);
 					}
 					
 				}
 			}
 			
-			medias.add(Miedo/num_encuestas);
-			medias.add(Ansiedad/num_encuestas);
-			medias.add(SensacionFisica/num_encuestas);
-			medias.add(Confianza/num_encuestas);
-			medias.add(PrevisionMejora/num_encuestas);
-			medias.add(General/num_encuestas);
+			
 			
 		} finally {
 			mgr.close();
@@ -1264,10 +1280,12 @@ public class AnxisEndpoint {
 
 		PersistenceManager mgr = null;
 		Paciente pacienteenvio = null;
+		Medico medico = loginMedico(user);
 
 		pacienteenvio = getPacienteConcretoByIDPacienteMedico(loginMedico(user).getId_medico(), id_paciente);
 		mensaje.setIdPacienteReceptorMensaje(pacienteenvio.getId_paciente());
-		
+		mensaje.setNombre_remitente(medico.getNombre()+" "+medico.getApellidos());
+		mensaje.setId_remitente(medico.getId_medico());
 		
 		try {
 			mgr = getPersistenceManager();
@@ -1353,12 +1371,12 @@ public class AnxisEndpoint {
 				     Constants.ANDROID_CLIENT_ID, 
 				     com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
 				     audiences = {Constants.ANDROID_AUDIENCE})
-	public CollectionResponse<UltimoMovimiento> getUltimosMovimientosTestPaciente(User user) throws UnauthorizedException {
+	public ArrayList<RegistroTest> getUltimosMovimientosTestPaciente(User user) throws UnauthorizedException {
 
 		List<Encuesta> encuestas = new ArrayList<Encuesta>();
 		Medico medico = loginMedico(user);
 		ArrayList<String> id_pacientes = new ArrayList<String>();
-		ArrayList<UltimoMovimiento> movimientos = new ArrayList<UltimoMovimiento>();
+		ArrayList<RegistroTest> movimientos = new ArrayList<RegistroTest>();
 		
 		for(String obj : medico.getPacientes()) {
 			id_pacientes.add(obj);
@@ -1372,13 +1390,11 @@ public class AnxisEndpoint {
 		List<RegistroTest> results = (List<RegistroTest>) q.execute(id_pacientes);
 		
 		for(RegistroTest obj : results) {
-			UltimoMovimiento m = new UltimoMovimiento();
-			m.setNombre_Paciente(getPacienteByID(obj.getId_paciente()).getNombre()+" "+getPacienteByID(obj.getId_paciente()).getApellidos());
-			m.setNombre_test(getTestByID(obj.getId_test()).getTitulo());
-			movimientos.add(m);
+			//UltimoMovimiento m = new UltimoMovimiento(getPacienteByID(obj.getId_paciente()).getNombre()+" "+getPacienteByID(obj.getId_paciente()).getApellidos(), getTestByID(obj.getId_test()).getTitulo());
+			movimientos.add(obj);
 		}
 
-		return CollectionResponse.<UltimoMovimiento> builder().setItems(movimientos).build();
+		return movimientos;
 	}
 	
 	@ApiMethod(name = "addPacienteMedico", scopes = {Constants.EMAIL_SCOPE, Constants.PROFILE_SCOPE},

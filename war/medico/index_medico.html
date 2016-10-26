@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
@@ -11,6 +12,7 @@
     <title>Free Responsive Admin Theme - ZONTAL</title>
     <!-- BOOTSTRAP CORE STYLE  -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../assets/css/anxis.css" rel="stylesheet" />
     <!-- FONT AWESOME ICONS  -->
     <link href="../assets/css/font-awesome.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
@@ -29,11 +31,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Email de soporte: </strong>alvarop.garcia@alu.uhu.es
-                    <div id="login">
-       <input id="loginButton" type="button" value="Login"/>
-    </div>
                 </div>
-
             </div>
         </div>
     </header>
@@ -48,7 +46,6 @@
                 </button>
                 <a class="navbar-brand" href="index.html">
 
-                    <img src="assets/img/logo.png" />
                 </a>
 
             </div>
@@ -64,7 +61,7 @@
                             <div class="dropdown-menu dropdown-settings">
                                 <div class="media">
                                     <a class="media-left" href="#">
-                                        <img src="assets/img/64-64.jpg" alt="" class="img-rounded" />
+                                        
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading">Jhon Deo Alex </h4>
@@ -122,32 +119,7 @@
                         <div class="panel-heading">
                             Últimos mensajes recibidos
                         </div>
-                        <div class="panel-body">
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" href="#collapseOne" data-toggle="collapse" data-parent="#accordion">Paciente</a>
-                                        </h4>
-                                    </div>
-                                    <div class="panel-collapse collapse" id="collapseOne" style="height: 0px;">
-                                            <div class="panel-body">   <h5>Asunto</h5>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                                        
-                                                    <br>
-                                                <hr>
-                                                
-                                    <textarea class="form-control" placeholder="Descripción" rows="3"></textarea>
-                                                    <br>
-                                                    
-                                                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                              Responder <span class="glyphicon glyphicon-send"></span>
-                            </button>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="panel-body" id="mensajes">
                         </div>
                     </div>
                 </div>
@@ -158,21 +130,15 @@
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover" id="tabla_movimientos">
                                     <thead>
                                         <tr>
                                             <th>Paciente</th>
                                             <th>Test</th>
-                                            <th>Finalizado</th>
+                                            <th>Fecha</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                        </tr>
-                                    </tbody>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -182,16 +148,15 @@
             </div>
                 <div class="row">
                 <div class="col-md-6">
-                 <div id="donut-example" style="height: 250px;"></div>
+                <center><div class="caption">Encuestas realizadas por los pacientes:</div></center>
+                 <div class="contenedor_grafico" id="donut-example" style="height: 300px;"></div>
             </div>
                     <div class="col-md-6">
-                 <div id="myfirstchart" style="height: 250px;"></div>
+                    <center><div class="caption">Valoraciones medias de las encuestas:</div></center>
+                 <div class="contenedor_grafico" id="myfirstchart" style="height: 300px;"></div>
             </div>
                     
             </div>
-            <div class="row">
-                <div id="myfirstchart" style="height: 250px;"></div>
-           </div>
         </div>
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
@@ -214,46 +179,144 @@
     <script src="../assets/js/bootstrap.js"></script>
     <script src="../assets/js/raphael.js"></script>
     <script src="../assets/js/morris.min.js"></script>
-    <script>
-    new Morris.Bar({
-  // ID of the element in which to draw the chart.
-  element: 'myfirstchart',
-  // Chart data records -- each entry in this array corresponds to a point on
-  // the chart.
-  data: [
-    { year: '2008', value: 20 },
-    { year: '2009', value: 10 },
-    { year: '2010', value: 5 },
-    { year: '2011', value: 5 },
-    { year: '2015', value: 20 }
-  ],
-  // The name of the data record attribute that contains x-values.
-  xkey: 'year',
-  // A list of names of data record attributes that contain y-values.
-  ykeys: ['value'],
-  // Labels for the ykeys -- will be displayed when you hover over the
-  // chart.
-  labels: ['Value']
-});</script>
-        <script>
-        Morris.Donut({
-  element: 'donut-example',
-  data: [
-    {label: "Ninguna encuesta", value: 100},
-    {label: "Entre 1-3", value: 0},
-    {label: "Entre 4-7", value: 0}
-  ]
-});</script>
-    <script type="text/javascript">
-    
-        var scopes = 'https://www.googleapis.com/auth/userinfo.email';
-        var client_id = '1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com';
+<script>
+var scopes = 'https://www.googleapis.com/auth/userinfo.email';
+var client_id = '1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com';
+var mensajes;
+var movimientos;
+var donut_encuestas;
+var barras_tests;
     
         function handleAuth() {
     	  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
-    	    if (!resp.code) {
+    	    if (resp.code) {
+    	    	window.location.replace("http://stackoverflow.com");
     	    }
     	    else {
+      	      
+      	      gapi.client.anxisendpoint.getMensajesTotalesMedico().execute(function(resp) {
+          		//Just logging to console now, you can do your check here/display message
+          		if (!resp.code) {
+        			resp.items = resp.items || [];
+        			var result = "";
+        			for (var i=0;i<resp.items.length;i++) {
+        				//result = result+ resp.items[i].id_mensaje + "<br/>";
+        				
+        				
+        				result += "<div class='panel-group' id='"+resp.items[i].id_mensaje+"'>";
+        				result += "<div class='panel panel-default'>";
+        					result += "<div class='panel-heading'>";
+        						result += "<h4 class='panel-title'>";
+        							result += "<a class='collapsed' href='#collapseOne' data-toggle='collapse' data-parent='#accordion'>"+resp.items[i].nombre_remitente+"</a>";
+        								result += "</h4>";
+        									result += "</div>";
+        										result += "<div class='panel-collapse collapse' id='collapseOne' style='height: 0px;'>";
+        											result += "<div class='panel-body'>   <h5>"+resp.items[i].Titulo+"</h5>";
+        												result += resp.items[i].id_mensaje;
+                                                
+        													result += "<br>";
+        														result += "<hr>";
+                                        
+        															result += "<textarea class='form-control' placeholder='Descripción' rows='3'></textarea>";
+        																result += "<br>";
+                                            
+        																	result += "<button id="+resp.items[i].id_mensaje+" onclick='enviarMensaje("+resp.items[i].id_remitente+", "+resp.items[i].Titulo+");' class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>";
+        																		result += "Responder <span class='glyphicon glyphicon-send'></span>";
+        																			result += " </button>";
+        																				result += "</div>";
+                                
+        																					result += "</div>";
+        																						result += "</div>";
+        																							result += "</div>";
+        				
+        				
+        				
+        			}
+        			document.getElementById('mensajes').innerHTML = result;
+        		}
+          		console.log(resp);
+          	});
+      	      gapi.client.anxisendpoint.getUltimosMovimientosTestPaciente().execute(function(resp) {
+
+      	    	if (!resp.code) {
+        			resp.items = resp.items || [];
+        			var result = "";
+        			for (var i=0;i<resp.items.length;i++) {
+        				
+        				result += "<tbody>";
+            			result += "<tr>";
+            			result += "<td>"+resp.items[i].nombre_paciente+"</td>";
+            			result += "<td>"+resp.items[i].nombre_test+"</td>";
+            			result += "<td>"+resp.items[i].fechaFinalizacion+"</td>";
+            			result += "</tr>";
+            			result += "</tbody>";
+        			}
+        			$("#tabla_movimientos").append(result);
+        		}
+      	    	  
+          		console.log(resp);
+          	});
+      	      gapi.client.anxisendpoint.getMediaEncuestasPacientesMedico().execute(function(resp) {
+
+      	    	if (!resp.code) {
+        			resp.items = resp.items || [];
+        			var result = [];
+        			for (var i=0;i<resp.items.length;i++) {
+        				result[i] = resp.items[i];
+        			}
+
+        			new Morris.Bar({
+        				  // ID of the element in which to draw the chart.
+        				  element: 'myfirstchart',
+        				  // Chart data records -- each entry in this array corresponds to a point on
+        				  // the chart.
+        				  data: [
+        				    { Emocion: 'Miedo', Valor: result[0] },
+        				    { Emocion: 'Ansiedad', Valor: result[1] },
+        				    { Emocion: 'Sensacion Fisica', Valor: result[2] },
+        				    { Emocion: 'Confianza', Valor: result[3] },
+        				    { Emocion: 'Mejora', Valor: result[4] },
+        				    { Emocion: 'General', Valor: result[5] }
+        				  ],
+        				  // The name of the data record attribute that contains x-values.
+        				  xkey: 'Emocion',
+        				  // A list of names of data record attributes that contain y-values.
+        				  ykeys: ['Valor'],
+        				  // Labels for the ykeys -- will be displayed when you hover over the
+        				  // chart.
+        				  labels: ['Media']
+        				});
+        		}
+      	    	  
+          		console.log(resp);
+          	});
+      	  	  gapi.client.anxisendpoint.getTestsRealizadosPacientesMedico().execute(function(resp) {
+
+      	  		if (!resp.code) {
+        			resp.items = resp.items || [];
+        			var result = [];
+        			for (var i=0;i<resp.items.length;i++) {
+        				result[i] = resp.items[i];
+        			}
+        			//document.getElementById('mensajes').innerHTML = result;
+        			var total = result[0]+result[1]+result[2]+result[3]+result[4];
+					Morris.Donut({
+					  element: 'donut-example',
+					  data: [
+					    {label: "Ninguna encuesta", value: result[0]},
+					    {label: "Entre 1 y 2 encuestas", value: result[1]},
+					    {label: "Entre 3 y 5 encuestas", value: result[2]},
+					    {label: "Entre 6 y 9 encuestas", value: result[3]},
+					    {label: "Diez o mas encuestas", value: result[4]}
+					  ],
+					  formatter: function (value, data) { return (value/total *100) + '%'; }
+					});
+        		}
+      	  		
+          		console.log(resp);
+          	});
+      	  	  
+      	      
     	    }
     	  });
     	}
@@ -275,13 +338,24 @@
         	gapi.client.load('anxisendpoint', 'v1', callback, 'http://localhost:8888/_ah/api');
         	//gapi.client.load('anxisendpoint', 'v1', callback, 'https://mybackendapi.appspot.com/_ah/api');
         	gapi.client.load('oauth2','v2',callback);
-        	
-        	document.getElementById("loginButton").onclick = function() {
-        		signin(false,handleAuth);
-        		}
         }
         
-    </script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+        function enviarMensaje(id_paciente, titulo) {
+        	
+        	var requestData = {};
+        	requestData.titulo = "Re: "+titulo;
+        	requestData.mensaje = $('#id_textarea').val();
+        	
+        	alert($('#id_textarea').val());
+        	/*gapi.client.anxisendpoint.sendMensajePacienteMedico(id_paciente, requestData).execute(function(resp) {
+
+      	    	if (!resp.code) {
+      	    		alert(enviado);
+        		}
+          	});*/
+        	
+        }
+</script>
+<script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+@CHARSET "ISO-8859-1";
+
+.contenedor_grafico {
+    padding: 30px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 2px #eee;
+    margin: 10px 0;
+    position: relative;
+}
