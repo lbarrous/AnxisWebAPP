@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>Anxis Web App</title>
+    <!-- CSS  -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../assets/css/anxis.css" rel="stylesheet" />
+    <link href="../assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="../assets/css/style.css" rel="stylesheet" />
+    <link href="../assets/css/morris.css" rel="stylesheet" />
+    <link href="../assets/css/bootstrap-dialog.css" rel="stylesheet" />
+     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Email de soporte: </strong>alvarop.garcia@alu.uhu.es
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <!-- HEADER END-->
+    <div class="navbar navbar-inverse set-radius-zero">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+
+                    <img src="assets/img/logo.png" />
+                </a>
+
+            </div>
+
+            <div class="left-div">
+                <a href="login.html"><i class="fa fa-user-plus login-icon" ></i></a>
+        </div>
+            </div>
+        </div>
+    <!-- LOGO HEADER END-->
+   
+    <!-- MENU SECTION END-->
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="page-head-line">Acceso a la plataforma: </h4>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-6">
+                        <a id="login" class="btn btn-labtn-info"><img style="width: 350px; height: 75px;" src="http://www.pikar.net/images/glogin.png" alt="Smiley face"></a>
+                            <div class="col-md-6">
+                            <label for="sel1">Tipo de usuario:</label>
+                          <select class="form-control" id="sel_login">
+                            <option value="paciente">Paciente</option>
+                            <option value="doctor">Doctor</option>
+                          </select>
+                          </div>
+                        <br><br>
+                    </div>
+                    <div class="col-md-6">
+                        <button style="margin-top:10px; width: 350px; height: 75px;" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                              Registro <span class="glyphicon glyphicon-user"></span>
+                            </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- CONTENT-WRAPPER SECTION END-->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    &copy; 2016 Universidad de Huelva
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER SECTION END-->
+    <!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+    <!-- CORE JQUERY SCRIPTS -->
+    <!-- SCRIPTS  -->
+    <script src="../assets/js/jquery-1.11.1.js"></script>
+    <script src="../assets/js/bootstrap.js"></script>
+    <script src="../assets/js/raphael.js"></script>
+    <script src="../assets/js/morris.min.js"></script>
+    <script src="../assets/js/bootstrap-dialog.js"></script>
+    
+    <script>
+var scopes = 'https://www.googleapis.com/auth/userinfo.email';
+var client_id = '1019548776931-blbnd36ce3sd81n11di7nqavmsm1skrs.apps.googleusercontent.com';
+var mensajes;
+var movimientos;
+var donut_encuestas;
+var barras_tests;
+    
+        function handleAuthMedico() {
+    	  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
+    	    if (resp.code) {
+    	    	window.location.replace("../error.html");
+    	    }
+    	    else {
+					gapi.client.anxisendpoint.loginMedico().execute(function(resp) {
+						
+						if (!resp.code) {
+							
+							sessionStorage.setItem("medico_login", JSON.stringify(resp));
+          	    			
+          	    			gapi.client.anxisendpoint.getMediaEncuestasPacientesMedico().execute(function(resp) {
+
+          	        	    	if (!resp.code) {
+          	        	    		var result = [];
+	          	          			for (var i=0;i<resp.items.length;i++) {
+	          	          				result[i] = resp.items[i];
+	          	          			}
+          	        	    		sessionStorage.setItem("media_encuestas", JSON.stringify(result));
+                  	    			//alert(JSON.parse(sessionStorage.getItem("media_encuestas"))[0]);
+          	          			}
+          	        	    	  
+          	            		console.log(resp);
+          	            	});
+            			}
+						
+              		});
+					
+					gapi.client.anxisendpoint.getTestsRealizadosPacientesMedico().execute(function(resp) {
+
+		      	  		if (!resp.code) {
+		        			resp.items = resp.items || [];
+		        			var result = [];
+		        			for (var i=0;i<resp.items.length;i++) {
+		        				result[i] = resp.items[i];
+		        			}
+		        			sessionStorage.setItem("test_realizados", JSON.stringify(result));
+		        			//alert(JSON.parse(sessionStorage.getItem("test_realizados"))[0]);
+		        			
+		        		}
+		      	  		
+		          		console.log(resp);
+		          	});
+					
+					gapi.client.anxisendpoint.getUltimosMovimientosTestPaciente().execute(function(resp) {
+
+		      	    	if (!resp.code) {
+		        			resp.items = resp.items || [];
+		        			var result = [];
+		        			for (var i=0;i<resp.items.length;i++) {
+		        				
+		        				result.push(resp.items[i]);
+		        			}
+		        			sessionStorage.setItem("ultimos_movimientos", JSON.stringify(result));
+		        			//alert(JSON.parse(sessionStorage.getItem("ultimos_movimientos"))[0].id_registro);
+		        		}
+		      	    	  
+		          		console.log(resp);
+		          	});
+					
+					gapi.client.anxisendpoint.getListaTestsCreadosMedico().execute(function(resp) {
+
+	          	    	if (!resp.code) {
+	            			resp.items = resp.items || [];
+	            			var tests = [];
+	            			
+	            			if(resp.items.length > 0) {
+	            			
+		            			for (var i=0;i<resp.items.length;i++) {
+		            				
+		            				resp.items[i]["actividades"] = [];
+		            				
+		            				gapi.client.anxisendpoint.getListaActividadesTest({id_test:resp.items[i].id_test}).execute(function(resp1) {
+		            					
+		            					
+	
+		                	  	    	if (!resp1.code) {
+		                	  	    		
+		                	  	    		resp1.items = resp1.items || [];
+		                	  	    		
+		                	  	    		if(resp1.items.length > 0) {
+		                	  	    			
+		                	  	    			var activi = [];
+		                	  	    			
+											for (var j=0;j<resp1.items.length;j++) {
+												
+												var actividades = [];
+												
+												var act;
+			                	  	    			
+												resp1.items[j]["preguntas"] = [];
+			                	  	    			
+			                	  	    			gapi.client.anxisendpoint.getListaPreguntasActividad({id_actividad:resp1.items[j].id_actividad}).execute(function(resp2) {
+		
+				    	                	  	    	if (!resp2.code) {
+				    	                	  	    		
+				    	                	  	    		resp2.items = resp2.items || [];
+
+				    	                	  	    		if(resp2.items.length > 0) {
+				    	                	  	    			
+				    	                	  	    			var preguntas = [];
+				    	                	  	    		
+					    	                	  	    		for (var k=0;k<resp2.items.length;k++) {
+					    	                	  	    			
+					    	                	  	    			preguntas.push(resp2.items[k]);
+					    	                	  	    			
+					    	                	  	    		}
+					    	                	  	    		sessionStorage.setItem("preguntast_test", JSON.stringify(preguntas));
+					    	                	  	    		
+				    	                	  	    		}
+				    	                	  	    		
+				    	                	    		}
+				    	                	      	});
+			                	  	    			
+			                	  	    			//actividades.push(resp1.items[j]);
+			                	  	    			
+			                	  	    			if(sessionStorage.getItem("preguntast_test") !== null)
+			                	  	    				resp1.items[j]["preguntas"].push(JSON.parse(sessionStorage.getItem("preguntast_test")));
+			    		            				else
+			    		            					resp1.items[j]["preguntas"].push([]);
+			    		            				sessionStorage.removeItem("preguntast_test");
+			    		            				
+			    		            				act = resp1.items[j];
+			    		            				
+			    		            				activi.push(act);
+			                	  	    			
+			                	  	    		}
+											
+											sessionStorage.setItem("actividades_test", JSON.stringify(activi));
+		                	  	    			
+		                	  	    		}
+	
+		                	    		}
+		                	      	});
+		            				
+		            				if(sessionStorage.getItem("actividades_test") !== null)
+            	  	    				resp.items[i]["actividades"].push(JSON.parse(sessionStorage.getItem("actividades_test")));
+		            				else
+		            					resp.items[i]["actividades"].push([]);
+		            				sessionStorage.removeItem("actividades_test");
+		            				
+		            				act = resp.items[i];
+		            				
+		            				tests.push(act);
+		            				
+		            				
+		            			}
+	            			}
+	            			
+	            			sessionStorage.setItem("test_creados", JSON.stringify(tests));
+		        			alert(sessionStorage.getItem("test_creados"));
+	            		}
+	          	    	  
+	              		console.log(resp);
+	              	});
+					
+					gapi.client.anxisendpoint.getPacientesAsociadosMedico().execute(function(resp) {
+						
+						if (!resp.code) {
+		        			resp.items = resp.items || [];
+		        			var result = [];
+		        			for (var i=0;i<resp.items.length;i++) {
+		        				
+		        				result.push(resp.items[i]);
+		        			}
+		        			sessionStorage.setItem("pacientes_medico", JSON.stringify(result));
+		        			//alert(JSON.parse(sessionStorage.getItem("ultimos_movimientos"))[0].id_registro);
+		        		}
+						
+              		});
+					
+					gapi.client.anxisendpoint.getMensajesTotalesMedico().execute(function(resp) {
+						
+						if (!resp.code) {
+		        			resp.items = resp.items || [];
+		        			var result = [];
+		        			for (var i=0;i<resp.items.length;i++) {
+		        				
+		        				result.push(resp.items[i]);
+		        			}
+		        			sessionStorage.setItem("mensajes_medico", JSON.stringify(result));
+		        			//alert(JSON.parse(sessionStorage.getItem("ultimos_movimientos"))[0].id_registro);
+		        		}
+						
+              		});
+					
+					gapi.client.anxisendpoint.getMensajesPorLeerMedico().execute(function(resp) {
+						
+						if (!resp.code) {
+		        			resp.items = resp.items || [];
+		        			var result = [];
+		        			for (var i=0;i<resp.items.length;i++) {
+		        				
+		        				result.push(resp.items[i]);
+		        			}
+		        			sessionStorage.setItem("mensajes_porleer_medico", JSON.stringify(result));
+		        			//alert(JSON.parse(sessionStorage.getItem("ultimos_movimientos"))[0].id_registro);
+		        		}
+						
+              		});
+					
+					//alert(sessionStorage.getItem("media_encuestas"));
+					
+					window.location.href = "medico/index_medico.html";
+    	    }
+    	  });
+    	  
+    	  
+    	}
+        
+        function signin(mode, callback) {
+        	  gapi.auth.authorize({client_id: client_id,scope: scopes, immediate: mode},callback);
+        }
+    
+        function init() {
+        	var apisToLoad;
+        	var callback = function() {
+        	   if (--apisToLoad == 0) {
+        	     //signin(true, handleAuth);
+        	   }
+        	}
+        	  
+        	apisToLoad = 2;
+        	//Parameters are APIName,APIVersion,CallBack function,API Root 
+        	gapi.client.load('anxisendpoint', 'v1', callback, 'http://localhost:8888/_ah/api');
+        	//gapi.client.load('anxisendpoint', 'v1', callback, 'https://mybackendapi.appspot.com/_ah/api');
+        	gapi.client.load('oauth2','v2',callback);
+        	
+        	//document.getElementById('login').onclick = login();
+        	}
+        	
+        function login() {
+        	alert(1);
+        }
+        
+        $(document).ready(function(){
+        	
+        	$("#login").on("click",function(){
+        		var opcion = $( "#sel_login" ).val();
+        		
+        		if(opcion == "doctor") {
+        			signin(false, handleAuthMedico);
+        		}
+        		
+        		});
+
+        });
+        
+</script>
+    
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+</body>
+</html>

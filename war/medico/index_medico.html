@@ -198,12 +198,7 @@ var barras_tests;
     	    }
     	    else {
       	      
-      	      gapi.client.anxisendpoint.getMensajesTotalesMedico().execute(function(resp) {
-          		//Just logging to console now, you can do your check here/display message
-          		if (!resp.code) {
-        			resp.items = resp.items || [];
-        			var result = "";
-        			for (var i=0;i<resp.items.length;i++) {
+        			/*for (var i=0;i<resp.items.length;i++) {
         				//result = result+ resp.items[i].id_mensaje + "<br/>";
         				
         				
@@ -238,39 +233,27 @@ var barras_tests;
         				
         				
         			}
-        			document.getElementById('mensajes').innerHTML = result;
-        		}
-          		console.log(resp);
-          	});
-      	      gapi.client.anxisendpoint.getUltimosMovimientosTestPaciente().execute(function(resp) {
+        			
+        			document.getElementById('mensajes').innerHTML = result;*/
 
-      	    	if (!resp.code) {
-        			resp.items = resp.items || [];
-        			var result = "";
-        			for (var i=0;i<resp.items.length;i++) {
+        			
+        			var ultimos_movimientos = JSON.parse(sessionStorage.getItem("ultimos_movimientos"));
+        			
+        			for (var i=0;i<ultimos_movimientos.length;i++) {
         				
         				result += "<tbody>";
             			result += "<tr>";
-            			result += "<td>"+resp.items[i].nombre_paciente+"</td>";
-            			result += "<td>"+resp.items[i].nombre_test+"</td>";
-            			result += "<td>"+resp.items[i].fechaFinalizacion+"</td>";
+            			result += "<td>"+ultimos_movimientos[i].nombre_paciente+"</td>";
+            			result += "<td>"+ultimos_movimientos[i].nombre_test+"</td>";
+            			result += "<td>"+ultimos_movimientos[i].fechaFinalizacion+"</td>";
             			result += "</tr>";
             			result += "</tbody>";
         			}
         			$("#tabla_movimientos").append(result);
-        		}
-      	    	  
-          		console.log(resp);
-          	});
-      	      gapi.client.anxisendpoint.getMediaEncuestasPacientesMedico().execute(function(resp) {
-
-      	    	if (!resp.code) {
-        			resp.items = resp.items || [];
-        			var result = [];
-        			for (var i=0;i<resp.items.length;i++) {
-        				result[i] = resp.items[i];
-        			}
-
+					
+					
+					var result = JSON.parse(sessionStorage.getItem("media_encuestas"));
+					
         			new Morris.Bar({
         				  // ID of the element in which to draw the chart.
         				  element: 'myfirstchart',
@@ -292,36 +275,22 @@ var barras_tests;
         				  // chart.
         				  labels: ['Media']
         				});
-        		}
-      	    	  
-          		console.log(resp);
-          	});
-      	  	  gapi.client.anxisendpoint.getTestsRealizadosPacientesMedico().execute(function(resp) {
+					
+        			var result_donut = JSON.parse(sessionStorage.getItem("test_realizados"));
 
-      	  		if (!resp.code) {
-        			resp.items = resp.items || [];
-        			var result = [];
-        			for (var i=0;i<resp.items.length;i++) {
-        				result[i] = resp.items[i];
-        			}
-        			//document.getElementById('mensajes').innerHTML = result;
-        			var total = result[0]+result[1]+result[2]+result[3]+result[4];
+        			var total = result_donut[0]+result_donut[1]+result_donut[2]+result_donut[3]+result_donut[4];
 					Morris.Donut({
 					  element: 'donut-example',
 					  data: [
-					    {label: "Ningun test", value: result[0]},
-					    {label: "Entre 1 y 2 tests", value: result[1]},
-					    {label: "Entre 3 y 5 tests", value: result[2]},
-					    {label: "Entre 6 y 9 tests", value: result[3]},
-					    {label: "Diez o mas tests", value: result[4]}
+					    {label: "Ningun test", value: result_donut[0]},
+					    {label: "Entre 1 y 2 tests", value: result_donut[1]},
+					    {label: "Entre 3 y 5 tests", value: result_donut[2]},
+					    {label: "Entre 6 y 9 tests", value: result_donut[3]},
+					    {label: "Diez o mas tests", value: result_donut[4]}
 					  ],
 					  formatter: function (value, data) { return (value/total *100) + '%'; }
 					});
-        		}
-      	  		
-          		console.log(resp);
-          	});
-      	  	  
+
       	      
     	    }
     	  });
