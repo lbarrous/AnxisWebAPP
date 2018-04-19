@@ -1,4 +1,4 @@
-This app allows a better connection between OCD people and their terapist.
+This app allows a better connection between OCD people and their therapist.
 
 It allows user handling, communication, OCD test managing, graphical dashboard with all information....
 
